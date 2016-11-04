@@ -10,4 +10,27 @@
     <string name="navWallet">Wallet</string>
     <string name="navCoupon">Coupon</string>
     <string name="navReferral">Referral</string>
+
+    <string name="no_groups_available">You are not a member of any group at the moment</string>
+
+    <string name="header_in_the_Toolbar">Header in the Toolbar</string>
+    <string name="desc_in_the_Toolbar">Desc in the Toolbar</string>
+    <string name="im_typing">I\'m typing</string>
+    <string name="write_a_message...">Write a message...</string>
+    <string name="unsubscribe">Leave Group</string>
+
+    <string name="otp_will_appear_in_box_below">Your OTP will appear in the box below</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="confirm_OTP">Confirm OTP</string>
+    <string name="login">LOGIN</string>
+
+    <string name="welcome">Welcome</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="enter_number">Enter Number</string>
+    <string name="registration_form">Registration Form</string>
+    <string name="your_name">Your Name</string>
+    <string name="email">Email</string>
+    <string name="submit">Submit</string>
+    <string name="OTP_code">OTP Code</string>
+
 </resources>

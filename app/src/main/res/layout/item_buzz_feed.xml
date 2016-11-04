@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        app:cardCornerRadius="@dimen/cardview_default_radius"
+        app:cardElevation="@dimen/cardview_default_elevation">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.android.volley.toolbox.NetworkImageView
+                android:id="@+id/message_img"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true" />
+
+
+            <com.nps.android.utils.TextViewDescription
+                android:id="@+id/textViewTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginLeft="@dimen/article_top_margin_small"
+                android:layout_marginTop="@dimen/article_top_margin_small"
+                android:text="Title"
+                android:visibility="gone"
+                android:textColor="@color/extraDarkGrey"
+                android:textSize="@dimen/text_large" />
+
+
+            <com.nps.android.utils.TextViewDescription
+                android:id="@+id/time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginLeft="@dimen/article_top_margin_small"
+                android:layout_marginTop="@dimen/article_top_margin_small"
+                android:text="Time"
+                android:textAllCaps="true"
+                android:textColor="@color/lightGrey"
+                android:textSize="@dimen/text_medium" />
+
+            <com.nps.android.utils.TextViewDescription
+                android:id="@+id/messagetxt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/article_top_margin_small"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:maxLines="2"
+                android:text="Message"
+                android:textColor="@color/grey"
+                android:textSize="@dimen/text_medium" />
+
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+    <!--<android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:id="@+id/supportcardView"
+        android:visibility="gone"
+        android:layout_height="@dimen/abc_action_bar_default_height_material"
+        app:cardElevation="4dp"
+        app:cardCornerRadius="@dimen/cardview_default_radius"
+        android:layout_margin="6dp"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            >
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/mera_friend_logo"
+                android:adjustViewBounds="true"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="4dp"
+                android:text="@string/click_here_to_visit_website"
+                android:layout_gravity="center_vertical"
+                android:textStyle="bold"
+                />
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>-->
+</LinearLayout>
