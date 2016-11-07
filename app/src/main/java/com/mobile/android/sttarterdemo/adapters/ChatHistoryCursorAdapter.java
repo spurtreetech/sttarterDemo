@@ -39,7 +39,7 @@ public class ChatHistoryCursorAdapter extends CursorRecyclerAdapter<ChatHistoryV
 
     @Override
     public void onClick(View v) {
-        Log.d(getClass().getSimpleName(), ((TextView) v.findViewById(R.id.name)).getText().toString());
+        Log.d(getClass().getSimpleName(), ((TextView) v.findViewById(R.id.textViewGroupName)).getText().toString());
         Log.d(getClass().getSimpleName() + ">", ((TextView) v.findViewById(R.id.channel)).getText().toString());
 
         TextView channelTextView = ((TextView) v.findViewById(R.id.channel));
@@ -83,12 +83,10 @@ public class ChatHistoryCursorAdapter extends CursorRecyclerAdapter<ChatHistoryV
         MessagesCursor mc = ph.getLastMessageForTopic(cursor.getString(cursor.getColumnIndex(TopicsColumns.TOPIC_NAME)));
         if (mc != null && mc.getCount() > 0) {
             mc.moveToFirst();
-            holder.textViewName.setText(mc.getMessageText());
-            holder.textViewDescription.setText(mc.getMessageFrom());
+            holder.textViewName.setText(mc.getMessageFrom());
+            holder.textViewDescription.setText(mc.getMessageText());
 
             String tmstmp = DateTimeHelper.getTimeOrDateString(mc.getUnixTimestamp().getTime());
-
-            Log.d(">>>>>>>>>>", tmstmp);
 
             holder.textViewTimeStamp.setText(tmstmp);
 
@@ -103,7 +101,7 @@ public class ChatHistoryCursorAdapter extends CursorRecyclerAdapter<ChatHistoryV
     @Override
     public ChatHistoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_chat_topiclist, parent, false);
+                .inflate(R.layout.messages_item_row, parent, false);
         //((TextView)v.findViewById(R.id.name)).setOnClickListener(this);
         v.setOnClickListener(this);
         return new ChatHistoryViewHolder(v);

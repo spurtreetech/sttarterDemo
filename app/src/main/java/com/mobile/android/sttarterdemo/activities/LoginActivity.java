@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -397,13 +398,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void showTimer(String message) {
-        progress.setMessage(message);
-        progress.show();
+        try {
+            progress.setMessage(message);
+            progress.show();
+        } catch (Exception e) {
+
+        }
     }
 
     private void removeTimer() {
         if (progress.isShowing())
-            progress.hide();
+            progress.dismiss();
     }
 
     private void showToast(String message) {

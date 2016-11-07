@@ -2,6 +2,17 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mobile.android.sttarterdemo">
 
+    <permission
+        android:name="com.mobile.android.sttarterdemo.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+    <uses-permission android:name="com.mobile.android.sttarterdemo.permission.C2D_MESSAGE" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
     <application
         android:name=".application_controller.AppController"
         android:allowBackup="true"
@@ -32,6 +43,54 @@
         <activity
             android:name=".activities.GroupMembersListActivity"
             android:screenOrientation="portrait" />
+
+        <service
+            android:name=".services.MessagingService"
+            android:enabled="true"
+            android:exported="false"
+            android:stopWithTask="false" />
+        <service
+            android:name="org.eclipse.paho.android.service.MqttService"
+            android:enabled="true"
+            android:exported="false"
+            android:stopWithTask="false" />
+        <service
+            android:name=".services.GcmMessageHandler"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+            </intent-filter>
+        </service>
+
+        <receiver
+            android:name="com.google.android.gms.gcm.GcmReceiver"
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+
+                <category android:name="com.mobile.android.sttarterdemo" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".services.RestarterBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true"
+            android:label="RestartServiceWhenStopped">
+            <intent-filter>
+                <action android:name="com.mobile.android.sttarterdemo.services.RestartIntent" />
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.SCREEN_ON" />
+                <action android:name="android.intent.action.SCREEN_OFF" />
+            </intent-filter>
+        </receiver>
+
+        <meta-data
+            android:name="STTARTER_API_KEY"
+            android:value="f55aabbb06f7b585fd74a15bfab25dbf" />
+
+
     </application>
 
 </manifest>

@@ -29,7 +29,7 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <com.nps.android.utils.TextViewDescription
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/article_top_margin_extra_large"
@@ -38,7 +38,7 @@
             android:textColor="@color/blue"
             android:textSize="@dimen/text_large" />
 
-        <com.nps.android.utils.TextViewDescription
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/article_top_margin_large"
@@ -67,15 +67,6 @@
             android:layout_gravity="center"
             android:layout_margin="@dimen/article_top_margin_large"
             android:text="@string/login" />
-
-        <!--
-        <TextView
-            android:id="@+id/registerTextView"
-            android:padding="8dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="If you are new user tap here"  /> -->
 
 
     </LinearLayout>
