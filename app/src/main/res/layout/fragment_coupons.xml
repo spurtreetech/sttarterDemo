@@ -131,6 +131,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/rounded_edittext"
+                android:maxLines="1"
                 android:padding="@dimen/size_small" />
         </LinearLayout>
 
@@ -155,7 +156,7 @@
                 android:padding="@dimen/size_small"
                 android:text="Coupon Not Valid!"
                 android:textColor="@color/red"
-                android:textSize="@dimen/text_extra_small"
+                android:textSize="@dimen/text_small"
                 android:textStyle="bold" />
 
             <TextView

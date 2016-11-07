@@ -43,7 +43,10 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/size_medium"
+            android:paddingRight="@dimen/size_medium"
+            android:paddingTop="@dimen/size_medium">
 
             <TextView
                 android:id="@+id/textViewGroupName"
@@ -61,7 +64,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:text="1:47 PM" />
+                android:text="1:47 PM"
+                android:textSize="@dimen/text_small"/>
 
 
         </RelativeLayout>
@@ -70,6 +74,7 @@
             android:id="@+id/textViewName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/size_medium"
             android:text="Geeta Mehta"
             android:textColor="@color/black"
             android:textSize="@dimen/text_small" />
@@ -81,13 +86,15 @@
             android:layout_marginTop="@dimen/size_medium"
             android:ellipsize="end"
             android:maxLines="1"
+            android:paddingLeft="@dimen/size_medium"
             android:text="Some text to get the data and check." />
+
         <TextView
             android:id="@+id/channel"
-            android:gravity="start"
-            android:text="@string/channel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"/>
+            android:gravity="start"
+            android:text="@string/channel"
+            android:visibility="gone" />
     </LinearLayout>
 </LinearLayout>
