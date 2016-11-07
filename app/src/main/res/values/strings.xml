@@ -33,4 +33,7 @@
     <string name="submit">Submit</string>
     <string name="OTP_code">OTP Code</string>
 
+
+    <string name="bag_items">You have 3 Items in your bag</string>
+
 </resources>

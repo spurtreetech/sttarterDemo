@@ -5,9 +5,211 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/textViewDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:maxLines="1"
+        android:padding="@dimen/size_small"
+        android:text="@string/bag_items"
+        android:textSize="@dimen/text_medium" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.2dp"
+        android:background="@color/darkGrey" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp">
+
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.2dp"
+        android:background="@color/darkGrey" />
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Coupons" />
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/size_large"
+        android:paddingTop="@dimen/size_large">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/size_small"
+            android:paddingRight="@dimen/size_small">
+
+            <TextView
+                android:id="@+id/textViewSubtotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="Subtotal"
+                android:textColor="@color/darkGrey"
+                android:textSize="@dimen/text_small" />
+
+            <TextView
+                android:id="@+id/textViewSubtotalAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="Rs. 4000"
+                android:textColor="@color/darkGrey"
+                android:textSize="@dimen/text_small" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/size_small"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/size_small"
+            android:paddingRight="@dimen/size_small">
+
+            <TextView
+                android:id="@+id/textViewShipping"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="Shipping"
+                android:textColor="@color/darkGrey"
+                android:textSize="@dimen/text_small" />
+
+            <TextView
+                android:id="@+id/textViewShippingAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="Rs. 90"
+                android:textColor="@color/darkGrey"
+                android:textSize="@dimen/text_small" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.2dp"
+        android:background="@color/darkGrey" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/size_large">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_layout_top"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_textview"
+                android:paddingBottom="@dimen/size_small"
+                android:paddingLeft="@dimen/size_large"
+                android:paddingRight="@dimen/size_large"
+                android:paddingTop="@dimen/size_small"
+                android:text="Coupon" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_edittext"
+                android:padding="@dimen/size_small" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.2dp"
+            android:background="@color/lightGrey" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_layout_bottom"
+            android:orientation="vertical"
+            android:padding="@dimen/size_small">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size_extra_small"
+                android:background="@drawable/rounded_textview"
+                android:gravity="center"
+                android:padding="@dimen/size_small"
+                android:text="Coupon Not Valid!"
+                android:textColor="@color/red"
+                android:textSize="@dimen/text_extra_small"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_textview"
+                android:gravity="center"
+                android:text="Not enough items in the card to be valid. Please add more items."
+                android:textColor="@color/extraDarkGrey"
+                android:textSize="@dimen/text_extra_small" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.2dp"
+        android:background="@color/darkGrey" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/size_small">
+
+        <TextView
+            android:id="@+id/textViewTotal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="Total"
+            android:textColor="@color/darkGrey"
+            android:textSize="@dimen/text_medium" />
+
+        <TextView
+            android:id="@+id/textViewTotalAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="Rs. 4000"
+            android:textColor="@color/darkGrey"
+            android:textSize="@dimen/text_medium" />
+
+    </RelativeLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/size_small"
+        android:background="@color/colorPrimary"
+        android:text="Continue to Payment"
+        android:textColor="@color/white"
+        android:textStyle="bold" />
+
 </LinearLayout>

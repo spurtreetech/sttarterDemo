@@ -4,10 +4,114 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/textView"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Wallet" />
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:padding="@dimen/size_large">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="$ 1240.13"
+                android:textAllCaps="true"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/text_large" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Balance"
+                android:textColor="@color/darkGrey"
+                android:textSize="@dimen/text_small" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="@dimen/size_small"
+                android:text="ADD"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_large" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.2dp"
+        android:background="@color/darkGrey" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/coupon_grey"
+        android:orientation="horizontal"
+        android:padding="@dimen/size_small">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="@dimen/size_small"
+            android:text="This Week"
+            android:textAllCaps="true"
+            android:textSize="@dimen/text_medium" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.2dp"
+        android:background="@color/darkGrey" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:padding="@dimen/size_medium">
+
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.2dp"
+        android:background="@color/darkGrey" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/coupon_grey"
+        android:orientation="horizontal"
+        android:padding="@dimen/size_small">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="@dimen/size_small"
+            android:text="Last Month"
+            android:textAllCaps="true"
+            android:textSize="@dimen/text_medium" />
+
+    </LinearLayout>
+
 </LinearLayout>

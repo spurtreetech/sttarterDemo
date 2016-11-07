@@ -16,5 +16,7 @@
     <color name="lightGrey">#C7C7CD</color>
     <color name="orange">#FA682F</color>
     <color name="blue">#484A9B</color>
+    <color name="background_grey">#F2F2F2</color>
+    <color name="coupon_grey">#EFF2F4</color>
 
 </resources>

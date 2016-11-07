@@ -4,10 +4,69 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/textView"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Referral" />
+        android:orientation="vertical"
+        android:padding="@dimen/size_large">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_layout_referral"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_textview_referral"
+                android:paddingBottom="@dimen/size_medium"
+                android:paddingLeft="@dimen/size_large"
+                android:paddingRight="@dimen/size_large"
+                android:paddingTop="@dimen/size_medium"
+                android:text="Your Code" />
+
+            <TextView
+                android:id="@+id/textViewReferralCode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_edittext_referral"
+                android:gravity="center"
+                android:paddingBottom="@dimen/size_medium"
+                android:paddingLeft="@dimen/size_large"
+                android:paddingRight="@dimen/size_large"
+                android:paddingTop="@dimen/size_medium"
+                android:text="ABCDEF" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.2dp"
+        android:background="@color/darkGrey" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/coupon_grey"
+        android:orientation="horizontal"
+        android:padding="@dimen/size_small">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="@dimen/size_small"
+            android:text="Track Usage"
+            android:textAllCaps="true"
+            android:textSize="@dimen/text_medium" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.2dp"
+        android:background="@color/darkGrey" />
+
 </LinearLayout>
