@@ -26,6 +26,7 @@
 
     <string name="welcome">Welcome</string>
     <string name="phone_number">Phone Number</string>
+    <string name="email_or_username">Email or Username</string>
     <string name="enter_number">Enter Number</string>
     <string name="registration_form">Registration Form</string>
     <string name="your_name">Your Name</string>
@@ -35,5 +36,7 @@
 
 
     <string name="bag_items">You have 3 Items in your bag</string>
+    <string name="forgot_uname_or_pword">Forgot username or password?</string>
+    <string name="or">or</string>
 
 </resources>

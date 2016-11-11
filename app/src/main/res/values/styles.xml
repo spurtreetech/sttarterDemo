@@ -31,7 +31,7 @@
     <style name="buttonStyle" parent="AppTheme">
         <item name="android:background">@drawable/rounded_button</item>
         <item name="android:gravity">center</item>
-        <item name="android:textColor">@color/orange</item>
+        <item name="android:textColor">@color/white</item>
         <item name="android:textStyle">bold</item>
         <item name="android:paddingLeft">@dimen/article_top_margin_extra_large</item>
         <item name="android:paddingRight">@dimen/article_top_margin_extra_large</item>
