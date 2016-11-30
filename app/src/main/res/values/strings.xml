@@ -56,4 +56,7 @@
 
     <string name="username_needed">Username needed</string>
     <string name="password_needed">Password needed</string>
+
+    <string name="share_and_earn">Share and earn</string>
+    <string name="share_string">Share with your friends and get 500 in your wallet everytime someone joins! </string>
 </resources>

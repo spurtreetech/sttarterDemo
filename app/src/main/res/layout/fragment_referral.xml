@@ -2,71 +2,89 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center"
         android:orientation="vertical"
         android:padding="@dimen/size_large">
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/rounded_layout_referral"
-            android:orientation="horizontal">
-
-            <TextView
+            android:gravity="center"
+            android:padding="@dimen/size_extra_large"
+            >
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/rounded_textview_referral"
-                android:paddingBottom="@dimen/size_medium"
-                android:paddingLeft="@dimen/size_large"
-                android:paddingRight="@dimen/size_large"
-                android:paddingTop="@dimen/size_medium"
-                android:text="Your Code" />
-
-            <TextView
-                android:id="@+id/textViewReferralCode"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/rounded_edittext_referral"
-                android:gravity="center"
-                android:paddingBottom="@dimen/size_medium"
-                android:paddingLeft="@dimen/size_large"
-                android:paddingRight="@dimen/size_large"
-                android:paddingTop="@dimen/size_medium"
-                 />
+                android:src="@drawable/mail_icon"
+                />
         </LinearLayout>
-
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.2dp"
-        android:background="@color/darkGrey" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/coupon_grey"
-        android:orientation="horizontal"
-        android:padding="@dimen/size_small">
-
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:padding="@dimen/size_small"
-            android:text="Track Usage"
-            android:textAllCaps="true"
-            android:textSize="@dimen/text_medium" />
+            android:orientation="vertical"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/share_and_earn"
+                android:textSize="@dimen/size_large"
+                android:textStyle="bold"
+                android:textAllCaps="true"
+                android:textColor="@color/colorPrimary"
+                android:padding="@dimen/size_medium"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/share_string"
+                android:gravity="center"
+                android:textSize="@dimen/text_medium"
+                android:textColor="@color/darkGrey"
+                android:padding="@dimen/size_medium"
+                />
+        </LinearLayout>
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardElevation="6dp"
+            app:cardCornerRadius="6dp"
+            android:layout_margin="@dimen/size_extra_small"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    android:padding="@dimen/size_large"
+                    android:background="@color/coupon_grey"
+                    android:gravity="center"
+                    android:text="Your Code" />
+
+                <TextView
+                    android:id="@+id/textViewReferralCode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textSize="@dimen/size_extra_large"
+                    android:textStyle="bold"
+                    android:textAllCaps="true"
+                    android:padding="@dimen/size_large"
+                    />
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.2dp"
-        android:background="@color/darkGrey" />
+
 
 </LinearLayout>

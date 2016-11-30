@@ -41,7 +41,7 @@ public class ReferralFragment extends Fragment {
 
         activity = getActivity();
         textViewReferralCode = (TextView) rootView.findViewById(R.id.textViewReferralCode);
-
+        textViewReferralCode.setHeight((int)(getActivity().getWindowManager().getDefaultDisplay().getHeight()/3.5));
     }
 
     void getReferralCode(){
