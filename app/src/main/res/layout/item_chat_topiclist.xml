@@ -18,7 +18,7 @@
         android:padding="8dp"
         android:layout_height="wrap_content">
 
-        <com.spurtreetech.sttarter.lib.helper.volley.CircularNetworkImageView
+        <com.spurtreetech.sttarter.lib.helper.uitools.CircularNetworkImageView
             android:id="@+id/groupIconImageView"
             android:layout_width="48dp"
             android:layout_height="48dp"

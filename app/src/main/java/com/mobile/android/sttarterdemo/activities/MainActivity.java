@@ -1,5 +1,6 @@
 package com.mobile.android.sttarterdemo.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -12,10 +13,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.mobile.android.sttarterdemo.R;
-import com.mobile.android.sttarterdemo.fragments.CouponsFragment;
-import com.mobile.android.sttarterdemo.fragments.MessagesFragment;
-import com.mobile.android.sttarterdemo.fragments.ReferralFragment;
-import com.mobile.android.sttarterdemo.fragments.WalletFragment;
+import com.mobile.android.sttarterdemo.fragments.coupons.CouponsFragment;
+import com.mobile.android.sttarterdemo.fragments.communicator.MessagesFragment;
+import com.mobile.android.sttarterdemo.fragments.referral.ReferralFragment;
+import com.mobile.android.sttarterdemo.fragments.wallet.WalletFragment;
+import com.sttarter.init.STTarterManager;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -33,6 +35,7 @@ public class MainActivity extends AppCompatActivity
         init();
 
         fragment = new MessagesFragment();
+        fragment.setArguments(getIntent().getExtras());
         ReplaceFragment(fragment);
     }
 
@@ -105,6 +108,10 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.navReferral) {
             fragment = new ReferralFragment();
             ReplaceFragment(fragment);
+        } else if (id == R.id.navLogout) {
+            STTarterManager.getInstance().logout(MainActivity.this);
+            startActivity(new Intent(MainActivity.this,SplashActivity.class));
+            finish();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -117,7 +124,7 @@ public class MainActivity extends AppCompatActivity
         fragmentTransaction.replace(R.id.frame_container, fragment);
         fragmentTransaction
                 .addToBackStack(getClass().getName())
-                .commit();
+                .commitAllowingStateLoss() ;
         currentFragment = fragment;
     }
 }

@@ -18,6 +18,10 @@
             android:id="@+id/navReferral"
             android:icon="@drawable/referral"
             android:title="@string/navReferral" />
+        <item
+            android:id="@+id/navLogout"
+            android:icon="@drawable/logout"
+            android:title="@string/navLogout" />
     </group>
 
 </menu>

@@ -20,7 +20,7 @@ import java.io.IOException;
  * Created by Shahbaz on 9/1/2015.
  */
 public class GCMClientManager {
-    // Constants
+    // STTarterConstants
     public static final String TAG = "GCMClientManager";
     public static final String EXTRA_MESSAGE = "message";
     private static final String PROPERTY_APP_VERSION = "appVersion";

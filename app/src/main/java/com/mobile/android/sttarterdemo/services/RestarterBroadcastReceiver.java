@@ -18,7 +18,6 @@ public class RestarterBroadcastReceiver extends WakefulBroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Log.i(RestarterBroadcastReceiver.class.getSimpleName(), "Service Stops! Oooooooooooooppppssssss!!!!");
         try {
-            context.startService(new Intent(context, MessagingService.class));
             context.startService(new Intent(context, MqttService.class));
         }
         catch (Exception e){

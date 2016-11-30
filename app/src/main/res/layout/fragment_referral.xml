@@ -36,7 +36,7 @@
                 android:paddingLeft="@dimen/size_large"
                 android:paddingRight="@dimen/size_large"
                 android:paddingTop="@dimen/size_medium"
-                android:text="ABCDEF" />
+                 />
         </LinearLayout>
 
     </LinearLayout>

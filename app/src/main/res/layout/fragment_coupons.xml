@@ -21,8 +21,12 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp">
+        android:layout_height="200dp">
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerViewCart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
     </LinearLayout>
 
@@ -109,6 +113,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:animateLayoutChanges="true"
         android:padding="@dimen/size_large">
 
         <LinearLayout
@@ -128,25 +133,29 @@
                 android:text="Coupon" />
 
             <EditText
+                android:id="@+id/couponEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/rounded_edittext"
                 android:maxLines="1"
+                android:singleLine="true"
+                android:imeOptions="actionDone"
                 android:padding="@dimen/size_small" />
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.2dp"
-            android:background="@color/lightGrey" />
+
 
         <LinearLayout
+            android:id="@+id/messageLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_layout_bottom"
             android:orientation="vertical"
             android:padding="@dimen/size_small">
-
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.2dp"
+                android:background="@color/lightGrey" />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -205,6 +214,7 @@
     </RelativeLayout>
 
     <Button
+        android:id="@+id/confirmPayment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/size_small"

@@ -10,6 +10,7 @@
     <string name="navWallet">Wallet</string>
     <string name="navCoupon">Coupon</string>
     <string name="navReferral">Referral</string>
+    <string name="navLogout">Logout</string>
 
     <string name="no_groups_available">You are not a member of any group at the moment</string>
 
@@ -26,7 +27,6 @@
 
     <string name="welcome">Welcome</string>
     <string name="phone_number">Phone Number</string>
-    <string name="email_or_username">Email or Username</string>
     <string name="enter_number">Enter Number</string>
     <string name="registration_form">Registration Form</string>
     <string name="your_name">Your Name</string>
@@ -36,7 +36,24 @@
 
 
     <string name="bag_items">You have 3 Items in your bag</string>
-    <string name="forgot_uname_or_pword">Forgot username or password?</string>
-    <string name="or">or</string>
 
+
+    <string name="email_or_username">Email or Username</string>
+    <string name="name">Name</string>
+    <string name="mobile">Mobile</string>
+    <string name="dob">Date Of Birth</string>
+    <string name="userIdentifier">Username</string>
+    <string name="password">Password</string>
+    <string name="referral_code">Referral Code</string>
+
+    <string name="forgot_uname_or_pword">Forgot User Identifier or password?</string>
+    <string name="new_user_signup">New User? SignUp</string>
+    <string name="or">or</string>
+    <string name="sign_up">SIGN UP</string>
+    <string name="login_sttarter_auth">Login With STTarter Auth</string>
+    <string name="login_sttarter_otp">Login With STTarter OTP</string>
+    <string name="login_sttarter_custom_auth">Login With Custom Auth</string>
+
+    <string name="username_needed">Username needed</string>
+    <string name="password_needed">Password needed</string>
 </resources>

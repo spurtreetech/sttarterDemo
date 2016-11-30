@@ -11,18 +11,18 @@ import android.webkit.URLUtil;
 import android.widget.TextView;
 
 import com.mobile.android.sttarterdemo.R;
-import com.spurtreetech.sttarter.lib.helper.STTarter;
-import com.spurtreetech.sttarter.lib.helper.models.Group_user_data;
-import com.spurtreetech.sttarter.lib.helper.volley.CircularNetworkImageView;
+import com.sttarter.init.STTarterManager;
+import com.sttarter.communicator.models.GroupUser;
+import com.sttarter.helper.uitools.CircularNetworkImageView;
 
 /**
  * Created by Shahbaz on 9/15/2015.
  */
 public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.CustomViewHolder> {
-    private Group_user_data[] feedItemList;
+    private GroupUser[] feedItemList;
     private Context mContext;
 
-    public MyRecyclerAdapter(Context context, Group_user_data[] feedItemList) {
+    public MyRecyclerAdapter(Context context, GroupUser[] feedItemList) {
         this.feedItemList = feedItemList;
         this.mContext = context;
     }
@@ -48,13 +48,13 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Cu
 
     @Override
     public void onBindViewHolder(CustomViewHolder customViewHolder, int i) {
-        Group_user_data feedItem = feedItemList[i];
+        GroupUser feedItem = feedItemList[i];
 
         //Download image using picasso library
 
         if (URLUtil.isValidUrl(feedItem.getAvatar())) {
             try{
-                customViewHolder.imageView.setImageUrl(feedItem.getAvatar(), STTarter.getInstance().getImageLoader());
+                customViewHolder.imageView.setImageUrl(feedItem.getAvatar(), STTarterManager.getInstance().getImageLoader());
                 customViewHolder.imageView.setErrorImageResId(R.mipmap.ic_launcher);
             }catch (Exception e){
                 e.printStackTrace();

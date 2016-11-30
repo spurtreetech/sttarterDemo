@@ -4,7 +4,7 @@
     android:layout_height="50dp"
     android:background="@color/colorPrimary" >
 
-    <com.spurtreetech.sttarter.lib.helper.volley.CircularNetworkImageView
+    <com.spurtreetech.sttarter.lib.helper.uitools.CircularNetworkImageView
         android:id="@+id/topicImageView"
         android:layout_width="35dp"
         android:layout_height="35dp"
