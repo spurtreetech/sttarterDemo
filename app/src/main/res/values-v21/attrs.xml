@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- CircularImageView for custom shape -->
+    <!-- CircularImageView for custom copy_icon -->
     <declare-styleable name="CircularImageView">
 
         <!-- Specifies whether or not to draw a circular border around the image. -->

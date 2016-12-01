@@ -5,6 +5,8 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+    <string name="copy">Copy</string>
+    <string name="share">Share</string>
 
     <string name="navMessages">Messages</string>
     <string name="navWallet">Wallet</string>
@@ -54,9 +56,17 @@
     <string name="login_sttarter_otp">Login With STTarter OTP</string>
     <string name="login_sttarter_custom_auth">Login With Custom Auth</string>
 
-    <string name="username_needed">Username needed</string>
-    <string name="password_needed">Password needed</string>
+    <string name="password_needed">Please enter your Password</string>
 
     <string name="share_and_earn">Share and earn</string>
     <string name="share_string">Share with your friends and get 500 in your wallet everytime someone joins! </string>
+
+    <string name="please_enter_your_name">Please enter your Name</string>
+    <string name="please_enter_your_username">Please enter your Username</string>
+    <string name="please_enter_your_email_id">Please enter your Email ID</string>
+    <string name="please_enter_valid_email_id">Please enter a valid Email ID</string>
+    <string name="please_enter_phone_number">Please enter your Phone Number</string>
+
+    <string name="referral_code_copied">Referral code copied</string>
+
 </resources>
