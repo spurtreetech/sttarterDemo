@@ -1,6 +1,7 @@
 package com.mobile.android.sttarterdemo.fragments.referral;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -9,18 +10,26 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.InputType;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.mobile.android.sttarterdemo.R;
+import com.sttarter.common.responses.STTResponse;
+import com.sttarter.helper.interfaces.STTSuccessListener;
 import com.sttarter.referral.ReferralManager;
 import com.sttarter.referral.interfaces.STTReferralInterface;
 import com.sttarter.referral.models.ReferralResponse;
@@ -32,7 +41,13 @@ import com.sttarter.referral.models.ReferralResponse;
 public class ReferralFragment extends Fragment {
 
     Activity activity;
-    TextView textViewReferralCode;
+    EditText textViewReferralCode;
+    ImageButton editReferral;
+    boolean editMode = false;
+
+    String oldCode = "";
+
+    ProgressDialog progress;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,7 +62,59 @@ public class ReferralFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_referral, container, false);
 
         init(rootView);
+        initializeProgressIndicator();
         getReferralCode();
+
+        textViewReferralCode.setInputType(InputType.TYPE_NULL);
+
+        editReferral.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (!editMode){
+                    if (!isKeyBoardOpen(getActivity())) {
+                        InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.showSoftInput(textViewReferralCode, InputMethodManager.SHOW_IMPLICIT);
+                    }
+                    textViewReferralCode.setInputType(InputType.TYPE_CLASS_TEXT);
+                    textViewReferralCode.requestFocus();
+                    textViewReferralCode.setSelection(textViewReferralCode.length());
+                    editMode = true;
+                    editReferral.setImageResource(R.drawable.tick);
+                    editReferral.setBackgroundResource(R.color.colorPrimary);
+
+                }
+                else {
+                    if (isKeyBoardOpen(getActivity())) {
+                        InputMethodManager imm = (InputMethodManager)
+                                getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(
+                                textViewReferralCode.getWindowToken(), 0);
+                    }
+                    textViewReferralCode.setInputType(InputType.TYPE_NULL);
+                    editMode = false;
+                    editReferral.setImageResource(R.drawable.edit_referral);
+                    editReferral.setBackgroundResource(android.R.color.transparent);
+
+                    STTReferralInterface sttReferralInterface = new STTReferralInterface() {
+                        @Override
+                        public void Response(ReferralResponse referralResponse) {
+                            hideProgressIndicator();
+                            if (referralResponse.getCode().equalsIgnoreCase("200")) {
+                                oldCode = textViewReferralCode.getText().toString();
+                            }
+                            Toast.makeText(activity, referralResponse.getMsg(), Toast.LENGTH_SHORT).show();
+                        }
+                    };
+
+                    showProgressIndicator("Loading..");
+                    ReferralManager.getInstance().customizeReferralCode(oldCode,textViewReferralCode.getText().toString().trim(),sttReferralInterface,getreferralErrorResponseListener());
+
+
+                }
+
+            }
+        });
 
         return rootView;
     }
@@ -55,8 +122,28 @@ public class ReferralFragment extends Fragment {
     private void init(View rootView) {
 
         activity = getActivity();
-        textViewReferralCode = (TextView) rootView.findViewById(R.id.textViewReferralCode);
+        textViewReferralCode = (EditText) rootView.findViewById(R.id.textViewReferralCode);
+        editReferral = (ImageButton) rootView.findViewById(R.id.editReferral);
         textViewReferralCode.setHeight((int)(getActivity().getWindowManager().getDefaultDisplay().getHeight()/3.5));
+    }
+
+    private void initializeProgressIndicator(){
+        progress = new ProgressDialog(getActivity());
+        progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progress.setIndeterminate(true);
+    }
+
+    public static boolean isKeyBoardOpen(Activity activity) {
+        InputMethodManager imm = (InputMethodManager) activity
+                .getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        if (imm.isAcceptingText()) {
+            Log.d("Keyboard", "Software Keyboard was shown");
+            return true;
+        } else {
+            Log.d("Keyboard", "Software Keyboard was not shown");
+            return false;
+        }
     }
 
     void getReferralCode(){
@@ -65,18 +152,19 @@ public class ReferralFragment extends Fragment {
             @Override
             public void Response(ReferralResponse referralResponse) {
                 if (referralResponse.getCode()!=null){
+                    oldCode = referralResponse.getCode();
                     textViewReferralCode.setText(referralResponse.getCode());
                 }
             }
         };
 
-        ReferralManager.getInstance().getReferral(sTTReferralInterface,getreferralResponseListener());
+        ReferralManager.getInstance().getReferral(sTTReferralInterface,getreferralErrorResponseListener());
     }
 
-    public Response.ErrorListener getreferralResponseListener() {
+    public Response.ErrorListener getreferralErrorResponseListener() {
         return new Response.ErrorListener() {
             public void onErrorResponse(VolleyError error) {
-
+                hideProgressIndicator();
                 Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_LONG).show();
 
             }
@@ -117,4 +205,15 @@ public class ReferralFragment extends Fragment {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    private void showProgressIndicator(String message) {
+        progress.setMessage(message);
+        progress.show();
+    }
+
+    private void hideProgressIndicator() {
+        if (progress.isShowing())
+            progress.hide();
+    }
+
 }

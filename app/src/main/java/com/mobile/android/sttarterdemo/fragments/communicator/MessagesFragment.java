@@ -1,6 +1,9 @@
 package com.mobile.android.sttarterdemo.fragments.communicator;
 
 import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -13,13 +16,19 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.mobile.android.sttarterdemo.R;
+import com.mobile.android.sttarterdemo.activities.communicator.AddUsersActivity;
 import com.mobile.android.sttarterdemo.activities.communicator.ChatActivity;
+import com.mobile.android.sttarterdemo.activities.communicator.CreateGroupActivity;
 import com.sttarter.communicator.ui.ChatHistoryCursorAdapter;
 import com.sttarter.communicator.models.Group;
 import com.sttarter.helper.utils.SpacesItemDecoration;
@@ -49,6 +58,8 @@ public class MessagesFragment extends Fragment implements /*LoaderManager.Loader
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setHasOptionsMenu(true);
 
         //uri = Uri.parse("content://" + STTContentProvider.AUTHORITY + "/" + DatabaseHelper.TABLE_TOPICS + "/getMyTopics");
         //sttGeneralRoutines = new CommunicationManager();
@@ -230,4 +241,21 @@ public class MessagesFragment extends Fragment implements /*LoaderManager.Loader
     public void getCursorJsonArrayString(String cursorJson) {
         Log.d("MyGrpTag",cursorJson);
     }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_messages, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.createGroup:
+                startActivity(new Intent(getActivity(), AddUsersActivity.class));
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 }

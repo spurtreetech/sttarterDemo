@@ -1,0 +1,107 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/tool_bar" />
+    <LinearLayout
+        android:id="@+id/linearLayoutTop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/size_huge"
+        android:paddingLeft="@dimen/size_medium"
+        android:paddingRight="@dimen/size_medium"
+        android:layout_marginTop="@dimen/size_medium"
+        android:paddingTop="?android:attr/actionBarSize">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/coupon_grey"
+            android:minHeight="@dimen/size_extra_large"
+            android:padding="@dimen/size_extra_large"
+            android:src="@drawable/camera_icon" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/size_medium"
+                android:layout_marginRight="@dimen/size_medium"
+                android:layout_marginTop="@dimen/size_small"
+                android:background="@drawable/rounded_layout_lightgray"
+                android:hint="@string/group_name"
+                android:padding="@dimen/size_medium"
+                android:textColorHint="@color/grey_cc" />
+
+            <TextView
+                android:id="@+id/itemNameTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/size_medium"
+                android:layout_marginTop="@dimen/size_medium"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="Provide a group subject and optional icon"
+                android:textColor="@color/darkGrey"
+                android:textSize="@dimen/text_medium" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayoutBottom"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/linearLayoutTop"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/background_grey"
+            android:gravity="center"
+            android:padding="@dimen/size_large">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="PARTICIPANTS"
+                android:textColor="@color/darkGrey"
+                android:textSize="@dimen/size_medium" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </android.support.v7.widget.RecyclerView>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/linearLayoutTop"
+        android:layout_marginRight="@dimen/size_medium"
+        android:layout_marginTop="@dimen/size_negative_large"
+        android:src="@drawable/tick" />
+
+</RelativeLayout>

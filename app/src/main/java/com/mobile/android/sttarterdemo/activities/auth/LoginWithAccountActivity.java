@@ -78,7 +78,7 @@ public class LoginWithAccountActivity extends AppCompatActivity implements View.
         String username = "", password = "";
         if (v.getId() == R.id.loginButton) {
             if (TextUtils.isEmpty(usernameEditText.getText().toString())) {
-                usernameEditText.setError(getResources().getString(R.string.username_needed));
+                usernameEditText.setError(getResources().getString(R.string.please_enter_your_username));
             } else {
                 username = usernameEditText.getText().toString();
             }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">STTarter</string>
+    <string name="app_name">STTarter Demo</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -21,6 +21,7 @@
     <string name="im_typing">I\'m typing</string>
     <string name="write_a_message...">Write a message...</string>
     <string name="unsubscribe">Leave Group</string>
+    <string name="create_group">Create Group</string>
 
     <string name="otp_will_appear_in_box_below">Your OTP will appear in the box below</string>
     <string name="dismiss">Dismiss</string>
@@ -47,6 +48,8 @@
     <string name="userIdentifier">Username</string>
     <string name="password">Password</string>
     <string name="referral_code">Referral Code</string>
+    <string name="users_list">User List</string>
+    <string name="group_name">Group Name</string>
 
     <string name="forgot_uname_or_pword">Forgot User Identifier or password?</string>
     <string name="new_user_signup">New User? SignUp</string>
@@ -60,6 +63,7 @@
 
     <string name="share_and_earn">Share and earn</string>
     <string name="share_string">Share with your friends and get 500 in your wallet everytime someone joins! </string>
+    <string name="search">Search</string>
 
     <string name="please_enter_your_name">Please enter your Name</string>
     <string name="please_enter_your_username">Please enter your Username</string>

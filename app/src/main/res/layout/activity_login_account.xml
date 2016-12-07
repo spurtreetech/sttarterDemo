@@ -37,7 +37,7 @@
             android:layout_marginRight="@dimen/article_top_margin_large"
             android:layout_marginTop="@dimen/article_top_margin_large"
             android:background="@drawable/rounded_edittext_login"
-            android:drawableLeft="@drawable/username_icon"
+            android:drawableLeft="@drawable/username"
             android:drawablePadding="@dimen/size_medium"
             android:hint="@string/userIdentifier"
             android:inputType="text"

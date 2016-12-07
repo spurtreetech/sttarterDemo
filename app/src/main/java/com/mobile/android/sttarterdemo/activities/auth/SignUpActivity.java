@@ -45,15 +45,17 @@ public class SignUpActivity extends AppCompatActivity {
         buttonSignUpSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (editTextName.getText().toString().equals("")) {
-                    editTextName.setError("Please enter your name");
-                } else if (editTextEmail.getText().toString().equals("")) {
-                    editTextEmail.setError("Please enter Email");
-                } else if (phoneEditText.getText().toString().equals("")) {
-                    phoneEditText.setError("Please enter Phone");
+                if (TextUtils.isEmpty(editTextName.getText().toString())) {
+                    editTextName.setError(getResources().getString(R.string.please_enter_your_name));
+                } else if (TextUtils.isEmpty(editTextUsername.getText().toString())) {
+                    editTextUsername.setError(getResources().getString(R.string.please_enter_your_username));
+                } else if (TextUtils.isEmpty(editTextEmail.getText().toString())) {
+                    editTextEmail.setError(getResources().getString(R.string.please_enter_your_email_id));
                 } else if (!isValidEmail(editTextEmail.getText().toString())) {
-                    editTextEmail.setError("Please enter a valid Email");
-                } else {
+                    editTextEmail.setError(getResources().getString(R.string.please_enter_valid_email_id));
+                }else if (TextUtils.isEmpty(phoneEditText.getText().toString())) {
+                    phoneEditText.setError(getResources().getString(R.string.please_enter_phone_number));
+                }  else {
                     doSignUp();
                 }
                 }
@@ -62,7 +64,7 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void doSignUp(){
-        String name, email, mobile,dob,username,password;
+        String name, email, mobile,username,password;
         showProgressIndicator("Please wait..");
         name= editTextName.getText().toString();
         email = editTextEmail.getText().toString();
@@ -93,12 +95,12 @@ public class SignUpActivity extends AppCompatActivity {
             };
 
             //Sign up with STTarterManager.
-            STTarterManager.getInstance().signUp(this,signUpModel,referralCode, STTSuccessListener,getSignUpResponseListener());
+            STTarterManager.getInstance().signUp(this,signUpModel,referralCode, STTSuccessListener,getSignUpErrorListener());
 
         }
     }
 
-    public Response.ErrorListener getSignUpResponseListener() {
+    public Response.ErrorListener getSignUpErrorListener() {
         return new Response.ErrorListener() {
             public void onErrorResponse(VolleyError error) {
                 hideProgressIndicator();

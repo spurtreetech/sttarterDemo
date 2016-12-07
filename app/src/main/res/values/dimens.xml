@@ -30,4 +30,6 @@
     <dimen name="size_medium">12dp</dimen>
     <dimen name="size_large">18dp</dimen>
     <dimen name="size_extra_large">22dp</dimen>
+    <dimen name="size_huge">45dp</dimen>
+    <dimen name="size_negative_large">-20dp</dimen>
 </resources>
