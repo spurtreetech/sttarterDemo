@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/size_small"
+    android:background="@color/grey"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="4"
+        android:gravity="center"
+        >
+
+            <ImageView
+                android:id="@+id/userImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/avatar"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        >
+            <TextView
+                android:id="@+id/itemNameTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/size_medium"
+                android:paddingBottom="@dimen/size_small"
+                android:paddingLeft="@dimen/size_medium"
+                android:paddingRight="@dimen/size_medium"
+                android:maxLines="2"
+                android:text="Item Name"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_medium"
+                android:textStyle="bold" />
+        <TextView
+            android:id="@+id/dateTimeText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="date"
+            android:paddingLeft="@dimen/size_medium"
+            android:paddingBottom="@dimen/size_small"
+            android:paddingRight="@dimen/size_small"
+            />
+</LinearLayout>
+</LinearLayout>

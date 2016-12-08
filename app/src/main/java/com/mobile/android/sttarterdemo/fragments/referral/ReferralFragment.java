@@ -10,6 +10,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -28,8 +30,14 @@ import android.widget.Toast;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.mobile.android.sttarterdemo.R;
+import com.mobile.android.sttarterdemo.fragments.referral.adapters.UserListAdapter;
+import com.mobile.android.sttarterdemo.utils.CommonFuntions;
+import com.sttarter.common.models.User;
+import com.sttarter.common.models.UserList;
+import com.sttarter.common.responses.AppAuthResponse;
 import com.sttarter.common.responses.STTResponse;
 import com.sttarter.helper.interfaces.STTSuccessListener;
+import com.sttarter.init.STTKeys;
 import com.sttarter.referral.ReferralManager;
 import com.sttarter.referral.interfaces.STTReferralInterface;
 import com.sttarter.referral.models.ReferralResponse;
@@ -44,6 +52,8 @@ public class ReferralFragment extends Fragment {
     EditText textViewReferralCode;
     ImageButton editReferral;
     boolean editMode = false;
+    RecyclerView userListRecyclerview;
+    UserListAdapter userListAdapter;
 
     String oldCode = "";
 
@@ -64,6 +74,7 @@ public class ReferralFragment extends Fragment {
         init(rootView);
         initializeProgressIndicator();
         getReferralCode();
+        trackUsage();
 
         textViewReferralCode.setInputType(InputType.TYPE_NULL);
 
@@ -96,20 +107,21 @@ public class ReferralFragment extends Fragment {
                     editReferral.setImageResource(R.drawable.edit_referral);
                     editReferral.setBackgroundResource(android.R.color.transparent);
 
-                    STTReferralInterface sttReferralInterface = new STTReferralInterface() {
-                        @Override
-                        public void Response(ReferralResponse referralResponse) {
-                            hideProgressIndicator();
-                            if (referralResponse.getCode().equalsIgnoreCase("200")) {
-                                oldCode = textViewReferralCode.getText().toString();
+                    if (!oldCode.equalsIgnoreCase(textViewReferralCode.getText().toString())) {
+                        STTReferralInterface sttReferralInterface = new STTReferralInterface() {
+                            @Override
+                            public void Response(ReferralResponse referralResponse) {
+                                hideProgressIndicator();
+                                if (referralResponse.getStatus()==200) {
+                                    oldCode = textViewReferralCode.getText().toString();
+                                }
+                                Toast.makeText(activity, referralResponse.getMsg(), Toast.LENGTH_SHORT).show();
                             }
-                            Toast.makeText(activity, referralResponse.getMsg(), Toast.LENGTH_SHORT).show();
-                        }
-                    };
+                        };
 
-                    showProgressIndicator("Loading..");
-                    ReferralManager.getInstance().customizeReferralCode(oldCode,textViewReferralCode.getText().toString().trim(),sttReferralInterface,getreferralErrorResponseListener());
-
+                        showProgressIndicator("Loading..");
+                        ReferralManager.getInstance().customizeReferralCode(oldCode, textViewReferralCode.getText().toString().trim(), sttReferralInterface, getreferralErrorResponseListener());
+                    }
 
                 }
 
@@ -119,12 +131,38 @@ public class ReferralFragment extends Fragment {
         return rootView;
     }
 
+    private Response.Listener<UserList> gettrackUsageSuccessListener() {
+
+        return new Response.Listener<UserList>() {
+            @Override
+            public void onResponse(final UserList userResponse) {
+
+                if (userResponse.getMsg()!=null)
+                    Toast.makeText(activity, userResponse.getMsg(), Toast.LENGTH_SHORT).show();
+
+                userListAdapter = new UserListAdapter(getActivity(),userResponse.getUsers());
+                userListRecyclerview.setAdapter(userListAdapter);
+
+            }
+        };
+    }
+
+    private void trackUsage() {
+
+        ReferralManager.getInstance().trackUsage(gettrackUsageSuccessListener(),getreferralErrorResponseListener());
+
+    }
+
     private void init(View rootView) {
 
         activity = getActivity();
         textViewReferralCode = (EditText) rootView.findViewById(R.id.textViewReferralCode);
         editReferral = (ImageButton) rootView.findViewById(R.id.editReferral);
-        textViewReferralCode.setHeight((int)(getActivity().getWindowManager().getDefaultDisplay().getHeight()/3.5));
+        userListRecyclerview = (RecyclerView) rootView.findViewById(R.id.userListRecyclerview);
+
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        userListRecyclerview.setLayoutManager(layoutManager);
     }
 
     private void initializeProgressIndicator(){
@@ -165,7 +203,7 @@ public class ReferralFragment extends Fragment {
         return new Response.ErrorListener() {
             public void onErrorResponse(VolleyError error) {
                 hideProgressIndicator();
-                Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_LONG).show();
+                CommonFuntions.onErrorResponse(getActivity(),error);
 
             }
         };

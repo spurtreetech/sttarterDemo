@@ -1,4 +1,4 @@
-package com.mobile.android.sttarterdemo.fragments.coupons.shopping_cart;
+package com.mobile.android.sttarterdemo.fragments.coupons.models;
 
 /**
  * Created by Shahbaz on 28/11/16.

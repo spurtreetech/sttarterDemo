@@ -3,11 +3,9 @@ package com.mobile.android.sttarterdemo.fragments.coupons;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.support.annotation.IntegerRes;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,18 +20,15 @@ import android.widget.Toast;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.mobile.android.sttarterdemo.R;
-import com.mobile.android.sttarterdemo.fragments.coupons.shopping_cart.CartItem;
-import com.mobile.android.sttarterdemo.fragments.coupons.shopping_cart.ShoppingCartAdapter;
+import com.mobile.android.sttarterdemo.activities.auth.SignUpActivity;
+import com.mobile.android.sttarterdemo.fragments.coupons.models.CartItem;
+import com.mobile.android.sttarterdemo.fragments.coupons.adapters.ShoppingCartAdapter;
+import com.mobile.android.sttarterdemo.utils.CommonFuntions;
 import com.sttarter.common.responses.STTResponse;
 import com.sttarter.helper.interfaces.STTSuccessListener;
 import com.sttarter.referral.ReferralManager;
-import com.sttarter.referral.interfaces.STTReferralInterface;
-import com.sttarter.referral.models.ReferralResponse;
-
-import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 /**
  * Created by Aishvarya on 04-11-2016.
@@ -194,7 +189,7 @@ public class CouponsFragment extends Fragment implements View.OnClickListener{
         return new Response.ErrorListener() {
             public void onErrorResponse(VolleyError error) {
                 hideProgressIndicator();
-                Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_LONG).show();
+                CommonFuntions.onErrorResponse(getActivity(),error);
 
             }
         };

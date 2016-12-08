@@ -19,6 +19,7 @@ import com.android.volley.VolleyError;
 import com.mobile.android.sttarterdemo.R;
 import com.mobile.android.sttarterdemo.activities.MainActivity;
 import com.mobile.android.sttarterdemo.application_controller.AppController;
+import com.mobile.android.sttarterdemo.utils.CommonFuntions;
 import com.sttarter.init.STTarterManager;
 import com.sttarter.common.responses.STTResponse;
 import com.sttarter.helper.interfaces.STTSuccessListener;
@@ -123,9 +124,7 @@ public class LoginWithAccountActivity extends AppCompatActivity implements View.
         return new Response.ErrorListener() {
             public void onErrorResponse(VolleyError error) {
                 hideProgressIndicator();
-                Log.e(TAG, "status code: " + error.toString());
-                String message = "An unknown error occurred. Please try again and if the problem persist, please contact your administrator.";
-                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                CommonFuntions.onErrorResponse(LoginWithAccountActivity.this,error);
             }
         };
     }

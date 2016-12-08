@@ -1,10 +1,8 @@
-package com.mobile.android.sttarterdemo.fragments.coupons.shopping_cart;
+package com.mobile.android.sttarterdemo.fragments.coupons.adapters;
 
 import android.app.Activity;
-import android.graphics.Paint;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +12,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.mobile.android.sttarterdemo.R;
+import com.mobile.android.sttarterdemo.fragments.coupons.models.CartItem;
 
 import java.util.ArrayList;
 

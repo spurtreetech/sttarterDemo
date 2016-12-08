@@ -14,7 +14,9 @@ import com.mobile.android.sttarterdemo.R;
 import com.mobile.android.sttarterdemo.activities.auth.LoginExternalAuthActivity;
 import com.mobile.android.sttarterdemo.activities.auth.LoginWithAccountActivity;
 import com.mobile.android.sttarterdemo.activities.auth.LoginWithOTPActivity;
+import com.mobile.android.sttarterdemo.activities.auth.SignUpActivity;
 import com.mobile.android.sttarterdemo.application_controller.AppController;
+import com.mobile.android.sttarterdemo.utils.CommonFuntions;
 import com.sttarter.init.STTarterManager;
 import com.sttarter.common.responses.STTResponse;
 import com.sttarter.helper.interfaces.STTSuccessListener;
@@ -74,7 +76,7 @@ public class SplashActivity extends AppCompatActivity {
     public Response.ErrorListener getAuthResponseListener() {
         return new Response.ErrorListener() {
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+                CommonFuntions.onErrorResponse(SplashActivity.this,error);
             }
         };
     }

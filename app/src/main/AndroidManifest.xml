@@ -53,6 +53,13 @@
             android:name=".activities.communicator.GroupMembersListActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".activities.communicator.AddUsersActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.communicator.CreateGroupActivity"
+            android:screenOrientation="portrait" />
+
         <service
             android:name="org.eclipse.paho.android.service.MqttService"
             android:enabled="true"

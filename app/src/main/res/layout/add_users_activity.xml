@@ -37,11 +37,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/rounded_edittext_referral"
-                android:gravity="center"
-                android:paddingBottom="@dimen/size_medium"
-                android:paddingLeft="@dimen/size_large"
-                android:paddingRight="@dimen/size_large"
-                android:paddingTop="@dimen/size_medium"
+                android:padding="@dimen/size_medium"
                 />
         </LinearLayout>
     </LinearLayout>

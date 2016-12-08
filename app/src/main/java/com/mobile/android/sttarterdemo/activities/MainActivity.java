@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.mobile.android.sttarterdemo.R;
 import com.mobile.android.sttarterdemo.fragments.coupons.CouponsFragment;
@@ -26,6 +27,7 @@ public class MainActivity extends AppCompatActivity
     Fragment currentFragment = null;
     android.support.v4.app.FragmentTransaction fragmentTransaction = null;
     Toolbar toolbar;
+    TextView textViewUsername;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +43,7 @@ public class MainActivity extends AppCompatActivity
 
     private void init() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -52,6 +55,10 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.getMenu().getItem(0).setChecked(true);
+
+        textViewUsername = (TextView) navigationView.getHeaderView(0).findViewById(R.id.textViewUsername);
+        textViewUsername.setText(STTarterManager.getInstance().getUsername());
+
     }
 
     @Override

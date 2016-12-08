@@ -69,7 +69,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/coupon_grey"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:padding="@dimen/size_small">
 
         <TextView
@@ -87,5 +87,9 @@
         android:layout_width="match_parent"
         android:layout_height="0.2dp"
         android:background="@color/darkGrey" />
-
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/userListRecyclerview"
+        ></android.support.v7.widget.RecyclerView>
 </LinearLayout>

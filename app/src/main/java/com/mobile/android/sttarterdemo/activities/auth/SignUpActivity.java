@@ -15,6 +15,7 @@ import com.android.volley.VolleyError;
 import com.mobile.android.sttarterdemo.R;
 import com.mobile.android.sttarterdemo.activities.MainActivity;
 import com.mobile.android.sttarterdemo.application_controller.AppController;
+import com.mobile.android.sttarterdemo.utils.CommonFuntions;
 import com.sttarter.init.STTarterManager;
 import com.sttarter.common.responses.STTResponse;
 import com.sttarter.common.models.User;
@@ -104,7 +105,8 @@ public class SignUpActivity extends AppCompatActivity {
         return new Response.ErrorListener() {
             public void onErrorResponse(VolleyError error) {
                 hideProgressIndicator();
-                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+
+                CommonFuntions.onErrorResponse(SignUpActivity.this,error);
 
             }
         };
