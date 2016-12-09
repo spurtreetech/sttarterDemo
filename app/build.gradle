@@ -28,6 +28,14 @@ android {
     else {
         // error msg to show if version.properties are not here 
         // throw new GradleExeception("Could not read version.properties")
+        defaultConfig {
+            applicationId "com.mobile.android.sttarterdemo"
+            minSdkVersion 14
+            targetSdkVersion 21
+            versionCode 1
+            versionName "1.0"
+            testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        }
     }
 
     signingConfigs{
