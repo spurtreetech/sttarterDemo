@@ -41,7 +41,7 @@ android {
 
     buildTypes {
         debug {
-            packageNameSuffix ".d"
+            applicationIdSuffix ".d"
             versionNameSuffix "-debug"
         }
         release {
