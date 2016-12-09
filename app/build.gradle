@@ -27,7 +27,7 @@ android {
     }
     else {
         // error msg to show if version.properties are not here 
-        throw new GradleExeception("Could not read version.properties")
+        // throw new GradleExeception("Could not read version.properties")
     }
 
     signingConfigs{
