@@ -3,18 +3,58 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.0"
-    defaultConfig {
-        applicationId "com.mobile.android.sttarterdemo"
-        minSdkVersion 14
-        targetSdkVersion 21
-        versionCode 1
-        versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    // versionProps Configure Line
+    def versionPropsFile = file('version.properties')
+
+    if (versionPropsFile.canRead()) {
+        def Properties versionProps = new Properties()
+        versionProps.load(new FileInputStream(versionPropsFile))
+        def code = versionProps['VERSION_CODE'].toInteger() + 1
+
+        versionProps['VERSION_CODE'] = code.toString()
+        versionProps.store(versionPropsFile.newWriter(), null)
+        // versionProps Configure Line
+
+        defaultConfig {
+            applicationId "com.mobile.android.sttarterdemo"
+            minSdkVersion 14
+            targetSdkVersion 21
+            versionCode code
+            versionName "1.0"
+            testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        }
     }
+    else {
+        // error msg to show if version.properties are not here 
+        throw new GradleExeception("Could not read version.properties")
+    }
+
+    signingConfigs{
+        release{
+            storeFile file('sttarterdemo.keysore')
+            keyAlias 'SttarterDemo'
+            storePassword 'sttarterdemo.version.beta'
+            keyPassword 'sttarterdemo.version.beta'
+        }
+    }
+
     buildTypes {
+        debug {
+            packageNameSuffix ".d"
+            versionNameSuffix "-debug"
+        }
         release {
+            signingConfig signingConfigs.release
             minifyEnabled false
+            runProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        applicationVariants.all { v ->
+            def f = v.outputFile
+            def fname = f.name.replace(".apk",
+                    "-${defaultConfig.versionName}.apk")
+            v.outputFile = new File(f.parent, fname)
         }
     }
     lintOptions {
