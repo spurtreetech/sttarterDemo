@@ -11,7 +11,7 @@ android {
         versionCode System.getenv("BUILD_NUMBER") as Integer ?: 0
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        project.ext.set("archivesBaseName", "SttarterDemo-" + versionName + "-" + versionCode);
+        project.ext.set("archivesBaseName", "SttarterDemo-" + versionName + "-" + versionCode +"_"+ System.getenv("GIT_COMMIT"));
     }
 
     signingConfigs{
@@ -30,6 +30,7 @@ android {
         }
         release {
             signingConfig signingConfigs.release
+            versionNameSuffix "-release"
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
