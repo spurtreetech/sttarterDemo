@@ -18,8 +18,8 @@ android {
         release{
             storeFile file('sttarterdemo.keysore')
             keyAlias 'SttarterDemo'
-            storePassword 'sttarterdemo.version.beta'
-            keyPassword 'sttarterdemo.version.beta'
+            storePassword 'sttarter123'
+            keyPassword 'sttarter123'
         }
     }
 
