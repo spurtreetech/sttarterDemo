@@ -17,7 +17,7 @@ android {
     signingConfigs{
         release{
             storeFile file('C:\Users\Veeresh\Documents\GitHub\sttarterDemo\app\sttarterdemo.keysore.jks')
-            keyAlias 'SttarterDemo'
+            keyAlias 'Sttarter'
             storePassword 'sttarter123'
             keyPassword 'sttarter123'
         }
