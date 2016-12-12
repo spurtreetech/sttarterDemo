@@ -4,18 +4,6 @@ android {
     compileSdkVersion 25
     buildToolsVersion "25.0.0"
 
-    // versionProps Configure Line
-    // def versionPropsFile = file('version.properties')
-
-    // if (versionPropsFile.canRead()) {
-    //     def Properties versionProps = new Properties()
-    //     versionProps.load(new FileInputStream(versionPropsFile))
-    //     def code = versionProps['VERSION_CODE'].toInteger() + 1
-
-    //     versionProps['VERSION_CODE'] = code.toString()
-    //     versionProps.store(versionPropsFile.newWriter(), null)
-        // versionProps Configure Line
-
     defaultConfig {
         applicationId "com.mobile.android.sttarterdemo"
         minSdkVersion 14
@@ -25,19 +13,6 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         project.ext.set("archivesBaseName", "SttarterDemo-" + versionName + "-" + versionCode);
     }
-    // }
-    // else {
-    //     // error msg to show if version.properties are not here 
-    //     // throw new GradleExeception("Could not read version.properties")
-    //     defaultConfig {
-    //         applicationId "com.mobile.android.sttarterdemo"
-    //         minSdkVersion 14
-    //         targetSdkVersion 21
-    //         versionCode 1
-    //         versionName "1.0"
-    //         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-    //     }
-    // }
 
     signingConfigs{
         release{
@@ -50,7 +25,7 @@ android {
 
     buildTypes {
         debug {
-            applicationIdSuffix ".d"
+            // applicationIdSuffix ".d"
             versionNameSuffix "-debug"
         }
         release {
