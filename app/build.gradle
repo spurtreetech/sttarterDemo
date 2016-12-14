@@ -18,7 +18,7 @@ android {
         release{
             storeFile file('sttarterdemo.keysore.jks')
             keyAlias 'Sttarter'
-              storeFile file('sttarterdemo.keysore')
+            // storeFile file('sttarterdemo.keysore')
             // keyAlias 'SttarterDemo'
             storePassword 'sttarter123'
             keyPassword 'sttarter123'
