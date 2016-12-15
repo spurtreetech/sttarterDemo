@@ -16,17 +16,17 @@ import com.mobile.android.sttarterdemo.R;
 import com.mobile.android.sttarterdemo.activities.MainActivity;
 import com.mobile.android.sttarterdemo.application_controller.AppController;
 import com.mobile.android.sttarterdemo.utils.CommonFuntions;
-import com.sttarter.init.STTarterManager;
-import com.sttarter.common.responses.STTResponse;
 import com.sttarter.common.models.User;
+import com.sttarter.common.responses.STTResponse;
 import com.sttarter.helper.interfaces.STTSuccessListener;
+import com.sttarter.init.STTarterManager;
 
 
 /**
  * Created by Aishvarya on 10/21/2016.
  */
 
-public class SignUpActivity extends AppCompatActivity {
+public class SignUpWithAccountActivity extends AppCompatActivity {
 
     Button buttonSignUpSubmit;
     EditText editTextName, editTextEmail, phoneEditText,editTextUsername,editTextPassword,editTextReferralCode;
@@ -38,7 +38,7 @@ public class SignUpActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_up);
+        setContentView(R.layout.activity_sign_up_with_account);
 
         initializeProgressIndicator();
         init();
@@ -89,7 +89,7 @@ public class SignUpActivity extends AppCompatActivity {
                 public void Response(STTResponse myResponse) {
                     hideProgressIndicator();
 
-                    STTarterManager.getInstance().init(SignUpActivity.this, AppController.getInstance().getNotificationHelperListener());
+                    STTarterManager.getInstance().init(SignUpWithAccountActivity.this, AppController.getInstance().getNotificationHelperListener());
                     moveToMainActivity();
 
                 }
@@ -106,14 +106,14 @@ public class SignUpActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 hideProgressIndicator();
 
-                CommonFuntions.onErrorResponse(SignUpActivity.this,error);
+                CommonFuntions.onErrorResponse(SignUpWithAccountActivity.this,error);
 
             }
         };
     }
 
     private void moveToMainActivity() {
-        Intent loginIntent = new Intent(SignUpActivity.this, MainActivity.class);
+        Intent loginIntent = new Intent(SignUpWithAccountActivity.this, MainActivity.class);
         startActivity(loginIntent);
         finish();
     }
@@ -141,7 +141,7 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void showToast(String message) {
-        Toast.makeText(SignUpActivity.this, message, Toast.LENGTH_SHORT).show();
+        Toast.makeText(SignUpWithAccountActivity.this, message, Toast.LENGTH_SHORT).show();
     }
 
     public final static boolean isValidEmail(CharSequence target) {

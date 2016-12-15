@@ -6,13 +6,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -20,9 +18,9 @@ import com.mobile.android.sttarterdemo.R;
 import com.mobile.android.sttarterdemo.activities.MainActivity;
 import com.mobile.android.sttarterdemo.application_controller.AppController;
 import com.mobile.android.sttarterdemo.utils.CommonFuntions;
-import com.sttarter.init.STTarterManager;
 import com.sttarter.common.responses.STTResponse;
 import com.sttarter.helper.interfaces.STTSuccessListener;
+import com.sttarter.init.STTarterManager;
 
 /**
  * Created by Shahbaz on 10/18/2016.
@@ -92,7 +90,7 @@ public class LoginWithAccountActivity extends AppCompatActivity implements View.
 
             doLogin(username, password);
         } else if (v.getId() == R.id.newUserSignUp) {
-            Intent intent = new Intent(this, SignUpActivity.class);
+            Intent intent = new Intent(this, SignUpWithAccountActivity.class);
             startActivity(intent);
         }
     }
@@ -116,7 +114,7 @@ public class LoginWithAccountActivity extends AppCompatActivity implements View.
                 }
             };
 
-            STTarterManager.getInstance().login(this, username, password, STTSuccessListener, getLoginErrorListener());
+            STTarterManager.getInstance().loginwithAccount(this, username, password, STTSuccessListener, getLoginErrorListener());
         }
     }
 

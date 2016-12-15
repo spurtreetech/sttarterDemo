@@ -1,9 +1,6 @@
 package com.mobile.android.sttarterdemo.fragments.communicator;
 
 import android.app.Activity;
-import android.content.ClipData;
-import android.content.ClipboardManager;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -22,24 +19,23 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.mobile.android.sttarterdemo.R;
 import com.mobile.android.sttarterdemo.activities.communicator.AddUsersActivity;
 import com.mobile.android.sttarterdemo.activities.communicator.ChatActivity;
-import com.mobile.android.sttarterdemo.activities.communicator.CreateGroupActivity;
-import com.sttarter.communicator.ui.ChatHistoryCursorAdapter;
+import com.sttarter.communicator.CommunicationManager;
 import com.sttarter.communicator.models.Group;
+import com.sttarter.communicator.ui.ChatHistoryCursorAdapter;
+import com.sttarter.helper.interfaces.GetCursor;
+import com.sttarter.helper.utils.GroupCursorLoader;
 import com.sttarter.helper.utils.SpacesItemDecoration;
+import com.sttarter.init.STTarterManager;
 import com.sttarter.provider.STTProviderHelper;
 import com.sttarter.provider.topics.TopicsColumns;
-import com.sttarter.helper.utils.GroupCursorLoader;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-
-import com.sttarter.helper.interfaces.GetCursor;
 
 public class MessagesFragment extends Fragment implements /*LoaderManager.LoaderCallbacks<Cursor>,*/ ChatHistoryCursorAdapter.ChatInitiateListener, GetCursor {
 
@@ -98,13 +94,22 @@ public class MessagesFragment extends Fragment implements /*LoaderManager.Loader
 
         chatHistoryRecyclerView.setAdapter(chatHistoryCursorAdapter);
 
+        getActivity().getSupportLoaderManager().initLoader(0,null, new GroupCursorLoader(getActivity(),this));
+
         return rootView;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        //sttGeneralRoutines.getMyTopics();
+        CommunicationManager.getInstance().subscribeInitalize();
+        STTarterManager.getInstance().setApplicationInBackground(false);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        STTarterManager.getInstance().setApplicationInBackground(true);
     }
 
     @Override
