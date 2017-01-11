@@ -1,22 +1,24 @@
 package com.mobile.android.sttarterdemo.activities.auth;
 
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.SmsMessage;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.android.volley.Response;
@@ -27,38 +29,30 @@ import com.mobile.android.sttarterdemo.application_controller.AppController;
 import com.mobile.android.sttarterdemo.utils.CommonFuntions;
 import com.sttarter.common.responses.STTResponse;
 import com.sttarter.helper.interfaces.STTSuccessListener;
-import com.sttarter.init.STTKeys;
 import com.sttarter.init.STTarterManager;
 
 /**
- * Created by kevalprabhu on 18/11/16.
+ * Created by Shahbaz on 12/09/2016.
  */
 
-public class LoginWithOTPActivity extends AppCompatActivity implements View.OnClickListener{
+public class SignUpWithOTPActivity extends AppCompatActivity {
 
-    Button loginButton;
-    EditText phoneNumberEditText, otpCodeEditText;
-    ImageView imageViewlolo;
+    Button buttonSignUpSubmit;
+    EditText editTextName, editTextEmail, phoneEditText;
+
+    EditText otpCodeEditText;
 
     IntentFilter smsIntentFilter;
     SmsListener smsListener;
 
-    private static final String TAG = "LoginResponse User";
-    Dialog otpDialog;
-
-    Context ctx;
-
     ProgressDialog progress;
 
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login_otp);
-        ctx = this;
+    private static final String TAG = "LoginResponse User";
 
-        loginButton = (Button) findViewById(R.id.loginButton);
-        phoneNumberEditText = (EditText) findViewById(R.id.phoneEditText);
-        loginButton.setOnClickListener(this);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_sign_up_with_otp);
 
         smsListener = new SmsListener();
         smsIntentFilter = new IntentFilter("android.provider.Telephony.SMS_RECEIVED");
@@ -69,74 +63,91 @@ public class LoginWithOTPActivity extends AppCompatActivity implements View.OnCl
         progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progress.setIndeterminate(true);
 
+        init();
 
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        removeTimer();
-    }
-
-    @Override
-    public void onClick(View v) {
-        if (v.getId() == R.id.loginButton) {
-
-            if (phoneNumberEditText.getText().toString().equals("")) {
-                showToast("Please enter Phone Number");
-            } else {
-                showTimer("Requesting OTP...");
-
-                STTarterManager.getInstance().loginUserRequestForOTP(getApplicationContext(),getOTPSuccessListener(), getLoginResponseListener(), phoneNumberEditText.getText().toString().trim(), "1");
-
-            }
-        }/* else if (v.getId() == R.id.confirmButton) {
-            confirmOTPWithServer();
-        } else if (v.getId() == R.id.dismissButton) {
-            otpDialog.dismiss();
-        }*/
-    }
-
-
-    private STTSuccessListener getOTPSuccessListener() {
-
-        return new STTSuccessListener() {
+        buttonSignUpSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void Response(STTResponse sttResponse) {
-                removeTimer();
-                String message = "";
-                if (sttResponse.getStatus()==STTKeys.PERFECT_RESPONSE) {
-                    showConfirmationDialog();
-                } else if (sttResponse.getStatus() == STTKeys.USER_NOT_FOUND || sttResponse.getStatus() == STTKeys.ORGANISATION_NOT_FOUND) {
-                    message = "Invalid User or Organization chosen. Please check the entries and try again.";
-                    //Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
-
-                    startActivity(new Intent(LoginWithOTPActivity.this,SignUpWithAccountActivity.class).putExtra("phone_number",phoneNumberEditText.getText().toString()));
-                    finish();
-
+            public void onClick(View v) {
+                if (editTextName.getText().toString().equals("")) {
+                    showToast("Please enter your name");
+                } else if (editTextEmail.getText().toString().equals("")) {
+                    showToast("Please enter your Students Name");
+                } else if (phoneEditText.getText().toString().equals("")) {
+                    showToast("Please enter Students DOB");
+                } else if (!isValidEmail(editTextEmail.getText().toString())) {
+                    showToast("Please enter a valid Email");
                 } else {
-                    message = "An unknown error occurred. Please try again and if the problem persist, please contact your administrator.";
-                    Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                    showTimer("Please wait..");
+
+                    Response.Listener<STTResponse> sttSuccessListener = new Response.Listener<STTResponse>() {
+                        @Override
+                        public void onResponse(STTResponse response) {
+                            removeTimer();
+
+                            if (response.getStatus()==666) {
+
+                                loginIntoSttarter();
+
+                                showConfirmationDialog();
+
+                            }
+                            else if (response.getStatus()==777){
+                                Toast.makeText(SignUpWithOTPActivity.this,"Registered but OTP Not sent", Toast.LENGTH_LONG).show();
+                            }
+                            else if (response.getStatus()==888){
+                                Toast.makeText(SignUpWithOTPActivity.this,"User already exists", Toast.LENGTH_LONG).show();
+                            }
+
+                        }
+                    };
+
+                    STTarterManager.getInstance().quickLogin(SignUpWithOTPActivity.this, sttSuccessListener, getErrorListener(), editTextName.getText().toString(), phoneEditText.getText().toString(), editTextEmail.getText().toString(), "1");
                 }
-            }
-        };
+                }
+
+        });
+
+
     }
 
-    public Response.ErrorListener getLoginResponseListener() {
+    public Response.ErrorListener getErrorListener() {
         return new Response.ErrorListener() {
             public void onErrorResponse(VolleyError error) {
                 removeTimer();
-                CommonFuntions.onErrorResponse(LoginWithOTPActivity.this,error);
+                CommonFuntions.onErrorResponse(SignUpWithOTPActivity.this,error);
             }
         };
     }
 
 
-    //PART 2 - Get the OTP and then continue
+    private void init() {
+        buttonSignUpSubmit = (Button) findViewById(R.id.buttonSignUpSubmit);
+        editTextName = (EditText) findViewById(R.id.editTextName);
+        editTextEmail = (EditText) findViewById(R.id.editTextEmail);
+        phoneEditText = (EditText) findViewById(R.id.phoneEditText);
+
+        if (getIntent().getExtras().containsKey("phone_number")){
+            phoneEditText.setText(getIntent().getExtras().getString("phone_number"));
+            phoneEditText.setSelection(phoneEditText.getText().length());
+        }
+
+    }
+
+    private void showToast(String message) {
+        Toast.makeText(SignUpWithOTPActivity.this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    public final static boolean isValidEmail(CharSequence target) {
+        if (target == null) {
+            return false;
+        } else {
+            return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
+        }
+    }
 
     private void showConfirmationDialog() {
 
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(LoginWithOTPActivity.this);
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(SignUpWithOTPActivity.this);
         alertDialog.setTitle(getResources().getString(R.string.otp_will_appear_in_box_below));
         //alertDialog.setMessage("Enter Password");
 
@@ -167,6 +178,21 @@ public class LoginWithOTPActivity extends AppCompatActivity implements View.OnCl
 
         alertDialog.show();
 
+        /*otpDialog = new Dialog(this);
+
+        otpDialog.setContentView(R.layout.otp);
+        otpDialog.setTitle("Confirming OTP");
+
+        // OTP code EditText
+        otpCodeEditText = (EditText) otpDialog.findViewById(R.id.otpCodeEditText);
+
+        //adding button click event
+        Button dismissButton = (Button) otpDialog.findViewById(R.id.dismissButton);
+        Button confirmButton = (Button) otpDialog.findViewById(R.id.confirmButton);
+        confirmButton.setOnClickListener(this);
+        dismissButton.setOnClickListener(this);
+        otpDialog.show();*/
+
     }
 
 
@@ -189,9 +215,7 @@ public class LoginWithOTPActivity extends AppCompatActivity implements View.OnCl
             public void Response(STTResponse sttResponse) {
                 removeTimer();
                 if (sttResponse.getStatus()==200) {
-                    //We will receive the APP Key and APP Secret here. We will need to set this up.
                     loginIntoSttarter();
-
                 }
             }
         };
@@ -209,12 +233,30 @@ public class LoginWithOTPActivity extends AppCompatActivity implements View.OnCl
         };
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        this.unregisterReceiver(smsListener);
+
+    private void loginIntoSttarter() {
+
+
+        //STTarter Intialize - needs app key, secret, user and user token
+        STTarterManager.getInstance().init(getApplicationContext(), AppController.getInstance().getNotificationHelperListener());
+        //startService(new Intent(this, MessagingService.class));
+        // TODO redirect user to login screen
+        Intent loginIntent = new Intent(SignUpWithOTPActivity.this, MainActivity.class);
+        //loginIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        //loginIntent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        startActivity(loginIntent);
+
+        finish();
     }
 
+    private void loginWithOTP(String otpCode) {
+        if (otpCodeEditText != null)
+            otpCodeEditText.setText(otpCode);
+        //confirmOTPWithServer(otpCode);
+        if (SignUpWithOTPActivity.this != null) {
+            STTarterManager.getInstance().confirmOTPWithServer(getApplicationContext(),otpCode, getOtpSuccessListener(), getOTPResponseListener(), phoneEditText.getText().toString().trim(), "1");
+        }
+    }
 
     // Automatically reading SMS from device and logging in.
 
@@ -257,28 +299,6 @@ public class LoginWithOTPActivity extends AppCompatActivity implements View.OnCl
 
     }
 
-    private void loginWithOTP(String otpCode) {
-        if (otpCodeEditText != null)
-            otpCodeEditText.setText(otpCode);
-        //confirmOTPWithServer(otpCode);
-        if (LoginWithOTPActivity.this != null) {
-            STTarterManager.getInstance().confirmOTPWithServer(getApplicationContext(), otpCode, getOtpSuccessListener(), getOTPResponseListener(), phoneNumberEditText.getText().toString().trim(), "8");
-        }
-    }
-
-    private void loginIntoSttarter() {
-
-        //STTarter Intialize - needs app key, secret, user and user token
-        STTarterManager.getInstance().init(getApplicationContext(), AppController.getInstance().getNotificationHelperListener());
-        // TODO redirect user to login screen
-        Intent loginIntent = new Intent(LoginWithOTPActivity.this, MainActivity.class);
-        //loginIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-        //loginIntent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-        startActivity(loginIntent);
-
-        finish();
-    }
-
     private void showTimer(String message) {
         progress.setMessage(message);
         progress.show();
@@ -289,7 +309,4 @@ public class LoginWithOTPActivity extends AppCompatActivity implements View.OnCl
             progress.hide();
     }
 
-    private void showToast(String message) {
-        Toast.makeText(LoginWithOTPActivity.this, message, Toast.LENGTH_SHORT).show();
-    }
 }

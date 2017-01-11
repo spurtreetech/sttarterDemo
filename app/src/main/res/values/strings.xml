@@ -46,6 +46,7 @@
     <string name="mobile">Mobile</string>
     <string name="dob">Date Of Birth</string>
     <string name="userIdentifier">Username</string>
+    <string name="extIdentifier">Ext Id</string>
     <string name="password">Password</string>
     <string name="referral_code">Referral Code</string>
     <string name="users_list">User List</string>

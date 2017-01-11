@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -14,7 +13,6 @@ import com.mobile.android.sttarterdemo.R;
 import com.mobile.android.sttarterdemo.activities.auth.LoginExternalAuthActivity;
 import com.mobile.android.sttarterdemo.activities.auth.LoginWithAccountActivity;
 import com.mobile.android.sttarterdemo.activities.auth.LoginWithOTPActivity;
-import com.mobile.android.sttarterdemo.activities.auth.SignUpActivity;
 import com.mobile.android.sttarterdemo.application_controller.AppController;
 import com.mobile.android.sttarterdemo.utils.CommonFuntions;
 import com.sttarter.init.STTarterManager;
