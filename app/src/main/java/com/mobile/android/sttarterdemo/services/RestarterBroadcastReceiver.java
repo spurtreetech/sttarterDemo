@@ -1,6 +1,5 @@
 package com.mobile.android.sttarterdemo.services;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.WakefulBroadcastReceiver;
@@ -19,6 +18,7 @@ public class RestarterBroadcastReceiver extends WakefulBroadcastReceiver {
         Log.i(RestarterBroadcastReceiver.class.getSimpleName(), "Service Stops! Oooooooooooooppppssssss!!!!");
         try {
             context.startService(new Intent(context, MqttService.class));
+            context.startService(new Intent(context, MessagingService.class));
         }
         catch (Exception e){
             e.printStackTrace();

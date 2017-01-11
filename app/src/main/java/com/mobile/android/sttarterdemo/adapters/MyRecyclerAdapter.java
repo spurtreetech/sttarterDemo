@@ -11,9 +11,9 @@ import android.webkit.URLUtil;
 import android.widget.TextView;
 
 import com.mobile.android.sttarterdemo.R;
-import com.sttarter.init.STTarterManager;
 import com.sttarter.communicator.models.GroupUser;
 import com.sttarter.helper.uitools.CircularNetworkImageView;
+import com.sttarter.init.STTarterManager;
 
 /**
  * Created by Shahbaz on 9/15/2015.

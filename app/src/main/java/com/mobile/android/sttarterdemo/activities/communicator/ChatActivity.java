@@ -1,5 +1,6 @@
 package com.mobile.android.sttarterdemo.activities.communicator;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -27,11 +28,16 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.mobile.android.sttarterdemo.R;
+import com.mobile.android.sttarterdemo.utils.CommonFuntions;
+import com.sttarter.common.responses.STTResponse;
 import com.sttarter.communicator.CommunicationManager;
 import com.sttarter.communicator.ui.BuzzFeedCursorAdapter;
 import com.sttarter.communicator.ui.ChatAdapter;
+import com.sttarter.helper.interfaces.STTSuccessListener;
 import com.sttarter.init.ChatClient;
 import com.sttarter.init.ISTTSystemEvent;
 import com.sttarter.init.STTarterManager;
@@ -73,6 +79,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     Group groupModel;
     Gson gson;
 
+    ProgressDialog progress;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,6 +94,10 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         topicImageUrl = (getIntent().getStringExtra("TOPIC_IMAGE") == null) ? "" : getIntent().getStringExtra("TOPIC_IMAGE");
         topicDesc = (getIntent().getStringExtra("TOPIC_DESC") == null) ? "" : getIntent().getStringExtra("TOPIC_DESC");
         topicMembers = (getIntent().getStringExtra("TOPIC_GROUP") == null) ? "" : getIntent().getStringExtra("TOPIC_GROUP");*/
+
+        progress = new ProgressDialog(this);
+        progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progress.setIndeterminate(true);
 
         gson = new Gson();
         if (getIntent().hasExtra("topic"))
@@ -136,10 +148,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
         sendButton.setOnClickListener(this);
         
-
-        STTProviderHelper sttProviderHelper = new STTProviderHelper();
-        sttProviderHelper.updateMessageRead(groupModel.getTopic());
-
         //actionBar.setLogo(R.drawable.ic_launcher);
 
         // Retrieves an image specified by the URL, displays it in the UI.
@@ -306,6 +314,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         // TODO registerReceiver with onResume
         LocalBroadcastManager.getInstance(this).registerReceiver(sysMessageReceiver, new IntentFilter("system"));
         STTarterManager.getInstance().setApplicationInBackground(false);
+        updateRead();
     }
     @Override
     protected void onPause() {
@@ -313,6 +322,11 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         // TODO unregister the receiver onPause
         LocalBroadcastManager.getInstance(this).unregisterReceiver(sysMessageReceiver);
         STTarterManager.getInstance().setApplicationInBackground(true);
+        updateRead();
+    }
+
+    void updateRead(){
+        CommunicationManager.getInstance().updateRead(groupModel.getTopic());
     }
 
     @Override
@@ -347,6 +361,39 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    private STTSuccessListener sttSuccessListener(){
+        return new STTSuccessListener() {
+            @Override
+            public void Response(STTResponse sttResponse) {
+                removeTimer();
+                CommonFuntions.displayMessage(ChatActivity.this,sttResponse.getMsg());
+                if (sttResponse.getStatus()==200){
+                    finish();
+                }
+            }
+        };
+    }
+
+    private Response.ErrorListener errorListener(){
+        return new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                removeTimer();
+                CommonFuntions.onErrorResponse(ChatActivity.this,error);
+            }
+        };
+    }
+
+    private void showTimer(String message) {
+        progress.setMessage(message);
+        progress.show();
+    }
+
+    private void removeTimer() {
+        if (progress.isShowing())
+            progress.hide();
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_unsubscribe, menu);
@@ -361,11 +408,13 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 onBackPressed();
                 return true;
             case R.id.unsubscribe:
-                CommunicationManager gr  = new CommunicationManager();
-                gr.unsubscribeTopic(groupModel.getTopic());
+                showTimer("Loading..");
+                if (groupModel.getTopic()!=null && groupModel.getTopic().contains("-group-"))
+                CommunicationManager.getInstance().leaveGroup(ChatActivity.this,groupModel.getTopic(),sttSuccessListener(),errorListener());
+                else
+                removeTimer();
                 //STTarterManager.getInstance().unsubscribe(topic);
                 //Log.d("STTTopicsCursorAdapter", "unsubscribed");
-                this.finish();
                 return true;
         }
         return super.onOptionsItemSelected(item);

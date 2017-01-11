@@ -29,9 +29,12 @@ import com.mobile.android.sttarterdemo.R;
 import com.mobile.android.sttarterdemo.activities.communicator.AddUsersActivity;
 import com.mobile.android.sttarterdemo.activities.communicator.ChatActivity;
 import com.mobile.android.sttarterdemo.activities.communicator.CreateGroupActivity;
+import com.sttarter.communicator.CommunicationManager;
 import com.sttarter.communicator.ui.ChatHistoryCursorAdapter;
 import com.sttarter.communicator.models.Group;
+import com.sttarter.helper.utils.MessageCursorLoader;
 import com.sttarter.helper.utils.SpacesItemDecoration;
+import com.sttarter.init.STTarterManager;
 import com.sttarter.provider.STTProviderHelper;
 import com.sttarter.provider.topics.TopicsColumns;
 import com.sttarter.helper.utils.GroupCursorLoader;
@@ -98,13 +101,27 @@ public class MessagesFragment extends Fragment implements /*LoaderManager.Loader
 
         chatHistoryRecyclerView.setAdapter(chatHistoryCursorAdapter);
 
+        getActivity().getSupportLoaderManager().initLoader(0,null, new GroupCursorLoader(getActivity(),this));
+
         return rootView;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        //sttGeneralRoutines.getMyTopics();
+        try {
+            CommunicationManager.getInstance().subscribeInitalize();
+            STTarterManager.getInstance().setApplicationInBackground(false);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        STTarterManager.getInstance().setApplicationInBackground(true);
     }
 
     @Override

@@ -130,6 +130,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="0"
                 android:background="@drawable/rounded_textview"
                 android:paddingBottom="@dimen/size_small"
                 android:paddingLeft="@dimen/size_large"
@@ -140,12 +141,23 @@
             <EditText
                 android:id="@+id/couponEdit"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/rounded_edittext"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/white"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:imeOptions="actionDone"
                 android:padding="@dimen/size_small" />
+            <Button
+                android:text="Apply"
+                android:background="@android:color/transparent"
+                android:layout_width="wrap_content"
+                android:textAllCaps="false"
+                android:layout_weight="0"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:id="@+id/applyCoupon"
+                />
         </LinearLayout>
 
 
@@ -163,6 +175,7 @@
                 android:layout_height="0.2dp"
                 android:background="@color/lightGrey" />
             <TextView
+                android:id="@+id/msg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/size_extra_small"
@@ -175,6 +188,7 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/rounded_textview"
