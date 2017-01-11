@@ -35,22 +35,22 @@ import com.mobile.android.sttarterdemo.R;
 import com.mobile.android.sttarterdemo.utils.CommonFuntions;
 import com.sttarter.common.responses.STTResponse;
 import com.sttarter.communicator.CommunicationManager;
-import com.sttarter.communicator.models.Group;
 import com.sttarter.communicator.ui.BuzzFeedCursorAdapter;
 import com.sttarter.communicator.ui.ChatAdapter;
-import com.sttarter.helper.interfaces.GetCursor;
 import com.sttarter.helper.interfaces.STTSuccessListener;
-import com.sttarter.helper.uitools.CircularNetworkImageView;
-import com.sttarter.helper.utils.MessageCursorLoader;
-import com.sttarter.helper.utils.SpacesItemDecoration;
 import com.sttarter.init.ChatClient;
 import com.sttarter.init.ISTTSystemEvent;
 import com.sttarter.init.STTarterManager;
 import com.sttarter.init.SysMessage;
 import com.sttarter.init.SystemMessageReceiver;
+import com.sttarter.communicator.models.Group;
+import com.sttarter.helper.utils.SpacesItemDecoration;
+import com.sttarter.helper.uitools.CircularNetworkImageView;
 import com.sttarter.provider.STTProviderHelper;
 import com.sttarter.provider.messages.MessagesColumns;
 import com.sttarter.provider.messages.MessagesSelection;
+import com.sttarter.helper.utils.MessageCursorLoader;
+import com.sttarter.helper.interfaces.GetCursor;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -408,9 +408,11 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 onBackPressed();
                 return true;
             case R.id.unsubscribe:
-                CommunicationManager gr  = new CommunicationManager();
                 showTimer("Loading..");
-                gr.leaveGroup(groupModel.getTopic(),sttSuccessListener(),errorListener());
+                if (groupModel.getTopic()!=null && groupModel.getTopic().contains("-group-"))
+                CommunicationManager.getInstance().leaveGroup(ChatActivity.this,groupModel.getTopic(),sttSuccessListener(),errorListener());
+                else
+                removeTimer();
                 //STTarterManager.getInstance().unsubscribe(topic);
                 //Log.d("STTTopicsCursorAdapter", "unsubscribed");
                 return true;

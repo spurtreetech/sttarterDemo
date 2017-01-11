@@ -25,7 +25,7 @@ import java.util.List;
  * Created by Shahbaz on 06-12-2016.
  */
 
-public class CreateGroupActivity extends AppCompatActivity {
+public class CreateGroupActivity extends AppCompatActivity{
 
     List<String> userList;
     FloatingActionButton createGroup;

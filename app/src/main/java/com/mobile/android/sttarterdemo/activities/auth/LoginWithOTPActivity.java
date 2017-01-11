@@ -24,7 +24,6 @@ import com.android.volley.VolleyError;
 import com.mobile.android.sttarterdemo.R;
 import com.mobile.android.sttarterdemo.activities.MainActivity;
 import com.mobile.android.sttarterdemo.application_controller.AppController;
-import com.mobile.android.sttarterdemo.gcm.GCMClientManager;
 import com.mobile.android.sttarterdemo.utils.CommonFuntions;
 import com.sttarter.common.responses.STTResponse;
 import com.sttarter.helper.interfaces.STTSuccessListener;
@@ -40,9 +39,6 @@ public class LoginWithOTPActivity extends AppCompatActivity implements View.OnCl
     Button loginButton;
     EditText phoneNumberEditText, otpCodeEditText;
     ImageView imageViewlolo;
-
-    private GCMClientManager pushClientManager;
-
 
     IntentFilter smsIntentFilter;
     SmsListener smsListener;
@@ -109,7 +105,7 @@ public class LoginWithOTPActivity extends AppCompatActivity implements View.OnCl
             public void Response(STTResponse sttResponse) {
                 removeTimer();
                 String message = "";
-                if (sttResponse.getStatus()==200) {
+                if (sttResponse.getStatus()==STTKeys.PERFECT_RESPONSE) {
                     showConfirmationDialog();
                 } else if (sttResponse.getStatus() == STTKeys.USER_NOT_FOUND || sttResponse.getStatus() == STTKeys.ORGANISATION_NOT_FOUND) {
                     message = "Invalid User or Organization chosen. Please check the entries and try again.";

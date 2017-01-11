@@ -13,11 +13,10 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.mobile.android.sttarterdemo.R;
-import com.mobile.android.sttarterdemo.fragments.communicator.MessagesFragment;
 import com.mobile.android.sttarterdemo.fragments.coupons.CouponsFragment;
+import com.mobile.android.sttarterdemo.fragments.communicator.MessagesFragment;
 import com.mobile.android.sttarterdemo.fragments.referral.ReferralFragment;
 import com.mobile.android.sttarterdemo.fragments.wallet.WalletFragment;
-import com.mobile.android.sttarterdemo.services.MessagingService;
 import com.sttarter.init.STTarterManager;
 
 public class MainActivity extends AppCompatActivity
@@ -36,7 +35,6 @@ public class MainActivity extends AppCompatActivity
 
         init();
 
-        startService(new Intent(this, MessagingService.class));
         fragment = new MessagesFragment();
         fragment.setArguments(getIntent().getExtras());
         ReplaceFragment(fragment);

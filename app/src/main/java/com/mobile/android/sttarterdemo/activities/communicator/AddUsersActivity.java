@@ -20,13 +20,18 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.gson.Gson;
 import com.mobile.android.sttarterdemo.R;
 import com.sttarter.common.models.User;
+import com.sttarter.communicator.models.Group;
 import com.sttarter.communicator.ui.UserListCursorAdapter;
 import com.sttarter.helper.interfaces.AddRemoveUserInterface;
 import com.sttarter.helper.interfaces.GetCursor;
+import com.sttarter.helper.utils.MessageCursorLoader;
 import com.sttarter.helper.utils.UserCursorLoader;
+import com.sttarter.provider.topics.TopicsColumns;
 import com.sttarter.provider.users.UsersColumns;
 
 import java.util.ArrayList;
@@ -165,6 +170,7 @@ public class AddUsersActivity extends AppCompatActivity implements GetCursor, Ad
             });
 
             addUserLinearLayout.addView(addView);
+            addView.getLayoutParams().width = getWindowManager().getDefaultDisplay().getWidth()/5;
         }
 
     }

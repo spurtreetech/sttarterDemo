@@ -18,9 +18,9 @@ import com.mobile.android.sttarterdemo.R;
 import com.mobile.android.sttarterdemo.activities.MainActivity;
 import com.mobile.android.sttarterdemo.application_controller.AppController;
 import com.mobile.android.sttarterdemo.utils.CommonFuntions;
+import com.sttarter.init.STTarterManager;
 import com.sttarter.common.responses.STTResponse;
 import com.sttarter.helper.interfaces.STTSuccessListener;
-import com.sttarter.init.STTarterManager;
 
 /**
  * Created by Shahbaz on 10/18/2016.

@@ -20,7 +20,7 @@ allprojects {
     repositories {
         jcenter()
         // maven and jitpack url needed by SttarterSdk to build SDK gradle successfully
-        maven { url "https://jitpack.io" }
+        //maven { url "https://jitpack.io" }
         maven {
             url "https://repo.eclipse.org/content/repositories/paho-releases/"
         }

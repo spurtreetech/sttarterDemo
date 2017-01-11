@@ -39,7 +39,7 @@ public class ExtendBuzz extends BuzzFeedCursorAdapter {
 
     }
 
-    class ExtendedBuzzViewHolder extends BuzzFeedViewHolder{
+    class ExtendedBuzzViewHolder extends BuzzFeedViewHolder {
 
         public TextView message, time;
         NetworkImageView messageImg;

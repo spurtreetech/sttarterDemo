@@ -6,6 +6,8 @@ import android.support.v7.appcompat.BuildConfig;
 
 import com.android.volley.RequestQueue;
 import com.sttarter.helper.utils.NotificationHelperListener;
+import com.crashlytics.android.Crashlytics;
+import io.fabric.sdk.android.Fabric;
 
 /**
  * Created by kevalprabhu on 17/10/16.
@@ -22,9 +24,9 @@ public class AppController extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        if (!BuildConfig.DEBUG) {
-            //Fabric.with(this, new Crashlytics());
-        }
+        //if (!BuildConfig.DEBUG) {
+            Fabric.with(this, new Crashlytics());
+        //}
         instance = this;
     }
 
