@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mobile.android.sttarterdemo">
 
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -34,6 +36,9 @@
             android:name=".activities.auth.LoginWithOTPActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activities.auth.SignUpWithOTPActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activities.auth.LoginExternalAuthActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -55,13 +60,25 @@
         <activity
             android:name=".activities.communicator.CreateGroupActivity"
             android:screenOrientation="portrait" />
+        <service
+            android:name=".fcm.MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
 
+        <service
+            android:name=".fcm.MyFirebaseInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
         <service
             android:name="org.eclipse.paho.android.service.MqttService"
             android:enabled="true"
             android:exported="false"
             android:stopWithTask="false" />
-
+        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyD8WL_ghBBdATkbzdBPcWj59y_2CYwTMuk"/>
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="bd0161598a368743e4a041db9792335804f5fee7" />
