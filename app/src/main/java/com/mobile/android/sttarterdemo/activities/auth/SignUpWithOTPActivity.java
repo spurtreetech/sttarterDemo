@@ -101,9 +101,9 @@ public class SignUpWithOTPActivity extends AppCompatActivity {
                         }
                     };
 
-                    STTarterManager.getInstance().quickLogin(SignUpWithOTPActivity.this, sttSuccessListener, getErrorListener(), editTextName.getText().toString(), phoneEditText.getText().toString(), editTextEmail.getText().toString(), "1");
+                    STTarterManager.getInstance().signupWithOTP(SignUpWithOTPActivity.this, sttSuccessListener, getErrorListener(), editTextName.getText().toString(), phoneEditText.getText().toString(), editTextEmail.getText().toString());
                 }
-                }
+            }
 
         });
 
@@ -126,9 +126,11 @@ public class SignUpWithOTPActivity extends AppCompatActivity {
         editTextEmail = (EditText) findViewById(R.id.editTextEmail);
         phoneEditText = (EditText) findViewById(R.id.phoneEditText);
 
-        if (getIntent().getExtras().containsKey("phone_number")){
-            phoneEditText.setText(getIntent().getExtras().getString("phone_number"));
-            phoneEditText.setSelection(phoneEditText.getText().length());
+        if (getIntent().getExtras()!=null) {
+            if (getIntent().getExtras().containsKey("phone_number")) {
+                phoneEditText.setText(getIntent().getExtras().getString("phone_number"));
+                phoneEditText.setSelection(phoneEditText.getText().length());
+            }
         }
 
     }
@@ -254,7 +256,7 @@ public class SignUpWithOTPActivity extends AppCompatActivity {
             otpCodeEditText.setText(otpCode);
         //confirmOTPWithServer(otpCode);
         if (SignUpWithOTPActivity.this != null) {
-            STTarterManager.getInstance().confirmOTPWithServer(getApplicationContext(),otpCode, getOtpSuccessListener(), getOTPResponseListener(), phoneEditText.getText().toString().trim(), "1");
+            STTarterManager.getInstance().confirmOTPWithServer(getApplicationContext(),otpCode, getOtpSuccessListener(), getOTPResponseListener(), phoneEditText.getText().toString().trim());
         }
     }
 

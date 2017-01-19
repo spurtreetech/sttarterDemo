@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
@@ -42,6 +43,7 @@ public class LoginWithOTPActivity extends AppCompatActivity implements View.OnCl
 
     IntentFilter smsIntentFilter;
     SmsListener smsListener;
+    TextView newUserSignUp;
 
     private static final String TAG = "LoginResponse User";
     Dialog otpDialog;
@@ -58,7 +60,9 @@ public class LoginWithOTPActivity extends AppCompatActivity implements View.OnCl
 
         loginButton = (Button) findViewById(R.id.loginButton);
         phoneNumberEditText = (EditText) findViewById(R.id.phoneEditText);
+        newUserSignUp = (TextView) findViewById(R.id.newUserSignUp);
         loginButton.setOnClickListener(this);
+        newUserSignUp.setOnClickListener(this);
 
         smsListener = new SmsListener();
         smsIntentFilter = new IntentFilter("android.provider.Telephony.SMS_RECEIVED");
@@ -87,10 +91,15 @@ public class LoginWithOTPActivity extends AppCompatActivity implements View.OnCl
             } else {
                 showTimer("Requesting OTP...");
 
-                STTarterManager.getInstance().loginUserRequestForOTP(getApplicationContext(),getOTPSuccessListener(), getLoginResponseListener(), phoneNumberEditText.getText().toString().trim(), "1");
+                STTarterManager.getInstance().loginUserRequestForOTP(getApplicationContext(),getOTPSuccessListener(), getLoginResponseListener(), phoneNumberEditText.getText().toString().trim());
 
             }
-        }/* else if (v.getId() == R.id.confirmButton) {
+        }
+        else if (v.getId() == R.id.newUserSignUp){
+            startActivity(new Intent(this,SignUpWithOTPActivity.class));
+            finish();
+        }
+        /* else if (v.getId() == R.id.confirmButton) {
             confirmOTPWithServer();
         } else if (v.getId() == R.id.dismissButton) {
             otpDialog.dismiss();
@@ -262,7 +271,7 @@ public class LoginWithOTPActivity extends AppCompatActivity implements View.OnCl
             otpCodeEditText.setText(otpCode);
         //confirmOTPWithServer(otpCode);
         if (LoginWithOTPActivity.this != null) {
-            STTarterManager.getInstance().confirmOTPWithServer(getApplicationContext(), otpCode, getOtpSuccessListener(), getOTPResponseListener(), phoneNumberEditText.getText().toString().trim(), "8");
+            STTarterManager.getInstance().confirmOTPWithServer(getApplicationContext(), otpCode, getOtpSuccessListener(), getOTPResponseListener(), phoneNumberEditText.getText().toString().trim());
         }
     }
 

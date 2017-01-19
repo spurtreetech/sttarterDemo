@@ -55,6 +55,15 @@ public class CouponsFragment extends Fragment implements View.OnClickListener{
     ProgressDialog progress;
     ShoppingCartAdapter shoppingCartAdapter;
 
+    public static CouponsFragment newInstance() {
+
+        Bundle args = new Bundle();
+
+        CouponsFragment fragment = new CouponsFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

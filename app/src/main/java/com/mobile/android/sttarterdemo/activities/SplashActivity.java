@@ -68,7 +68,7 @@ public class SplashActivity extends AppCompatActivity {
             }
         };
 
-        STTarterManager.getInstance().AuthenticateApp(this,appKey,appSecret, STTSuccessListener,getAuthResponseListener());
+        STTarterManager.getInstance().AuthenticateApp(this,getResources().getString(R.string.app_key),getResources().getString(R.string.app_secret), STTSuccessListener,getAuthResponseListener());
     }
 
     public Response.ErrorListener getAuthResponseListener() {
