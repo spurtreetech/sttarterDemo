@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/size_medium">
+
+        <TextView
+            android:id="@+id/textViewDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:paddingLeft="@dimen/size_medium"
+            android:text="12/11/2016"
+            android:textColor="@color/extraDarkGrey"
+            android:textSize="@dimen/text_medium" />
+
+        <TextView
+            android:id="@+id/textViewName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textViewDate"
+            android:paddingBottom="@dimen/size_medium"
+            android:paddingLeft="@dimen/size_medium"
+            android:text="Swiggy"
+            android:textAllCaps="true"
+            android:textColor="@color/extraDarkGrey"
+            android:textSize="@dimen/text_large" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="600"
+            android:textColor="@color/text_red"
+            android:textSize="@dimen/text_large" />
+
+    </RelativeLayout>
+
+</LinearLayout>

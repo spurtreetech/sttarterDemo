@@ -23,4 +23,5 @@
 
     <color name="login_blue_light">#ABDDEE</color>
     <color name="login_blue_dark">#76C7E3</color>
+    <color name="text_red">#fd4d61</color>
 </resources>
