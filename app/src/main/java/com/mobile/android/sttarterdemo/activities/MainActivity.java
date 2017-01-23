@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.mobile.android.sttarterdemo.R;
+import com.mobile.android.sttarterdemo.fragments.content_system.ContentSystemFragment;
 import com.mobile.android.sttarterdemo.fragments.coupons.CouponsFragment;
 import com.mobile.android.sttarterdemo.fragments.communicator.MessagesFragment;
 import com.mobile.android.sttarterdemo.fragments.referral.ReferralFragment;
@@ -89,7 +90,10 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.navCoupons) {
             fragment = new CouponsFragment();
             ReplaceFragment(fragment);
-        } else if (id == R.id.navReferral) {
+        }  else if (id == R.id.navContentSystems) {
+            fragment = ContentSystemFragment.newInstance();
+            ReplaceFragment(fragment);
+        }else if (id == R.id.navReferral) {
             fragment = new ReferralFragment();
             ReplaceFragment(fragment);
         } else if (id == R.id.navLogout) {
