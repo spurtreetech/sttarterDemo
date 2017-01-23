@@ -101,8 +101,6 @@ public class MessagesFragment extends Fragment implements /*LoaderManager.Loader
 
         chatHistoryRecyclerView.setAdapter(chatHistoryCursorAdapter);
 
-        getActivity().getSupportLoaderManager().initLoader(0,null, new GroupCursorLoader(getActivity(),this));
-
         return rootView;
     }
 
@@ -112,6 +110,12 @@ public class MessagesFragment extends Fragment implements /*LoaderManager.Loader
         try {
             CommunicationManager.getInstance().subscribeInitalize();
             STTarterManager.getInstance().setApplicationInBackground(false);
+            if (getActivity().getSupportLoaderManager().getLoader(0) == null) {
+                getActivity().getSupportLoaderManager().initLoader(0, null, new GroupCursorLoader(getActivity(), this));
+            }
+            else {
+                getActivity().getSupportLoaderManager().restartLoader(0, null, new GroupCursorLoader(getActivity(), this));
+            }
         }
         catch (Exception e){
             e.printStackTrace();

@@ -11,6 +11,10 @@
             android:icon="@drawable/wallet"
             android:title="@string/navWallet" />
         <item
+            android:id="@+id/navContentSystems"
+            android:icon="@drawable/referral"
+            android:title="@string/navContentSystem" />
+        <item
             android:id="@+id/navCoupons"
             android:icon="@drawable/coupon"
             android:title="@string/navCoupon" />
