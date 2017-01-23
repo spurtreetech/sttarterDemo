@@ -77,4 +77,13 @@
 
     <string name="referral_code_copied">Referral code copied</string>
 
+
+    <string name="shared_wallet">Shared Wallet</string>
+    <string name="personal_wallet">Personal Wallet</string>
+    <string name="admin">Admin</string>
+    <string name="balance">Balance: Rs. 10000</string>
+    <string name="view_transactions">View Transactions</string>
+    <string name="spent">Spent</string>
+    <string name="total">Total</string>
+
 </resources>
