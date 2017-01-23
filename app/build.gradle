@@ -59,7 +59,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-gcm:10.0.1'
     compile 'com.google.android.gms:play-services-location:10.0.1'
     compile 'com.google.android.gms:play-services-maps:10.0.1'
-    compile 'com.sttarter:sttartersdk:1.0.3'
+    compile 'com.sttarter:sttartersdk:1.0.4'
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
         transitive = true;

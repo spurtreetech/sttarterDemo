@@ -13,9 +13,9 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.mobile.android.sttarterdemo.R;
+import com.mobile.android.sttarterdemo.fragments.common.HomeFragment;
 import com.mobile.android.sttarterdemo.fragments.content_system.ContentSystemFragment;
 import com.mobile.android.sttarterdemo.fragments.coupons.CouponsFragment;
-import com.mobile.android.sttarterdemo.fragments.communicator.MessagesFragment;
 import com.mobile.android.sttarterdemo.fragments.referral.ReferralFragment;
 import com.mobile.android.sttarterdemo.fragments.wallet.WalletFragment;
 import com.sttarter.init.STTarterManager;
@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity
 
         init();
 
-        fragment = new MessagesFragment();
+        fragment = new HomeFragment();
         fragment.setArguments(getIntent().getExtras());
         ReplaceFragment(fragment);
     }
@@ -82,19 +82,19 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.navMessages) {
-            fragment = new MessagesFragment();
+            fragment = HomeFragment.newInstance();
             ReplaceFragment(fragment);
         } else if (id == R.id.navWallet) {
-            fragment = new WalletFragment();
+            fragment = WalletFragment.newInstance();
             ReplaceFragment(fragment);
         } else if (id == R.id.navCoupons) {
-            fragment = new CouponsFragment();
+            fragment = CouponsFragment.newInstance();
             ReplaceFragment(fragment);
-        }  else if (id == R.id.navContentSystems) {
+        } else if (id == R.id.navContentSystems) {
             fragment = ContentSystemFragment.newInstance();
             ReplaceFragment(fragment);
-        }else if (id == R.id.navReferral) {
-            fragment = new ReferralFragment();
+        } else if (id == R.id.navReferral) {
+            fragment = ReferralFragment.newInstance();
             ReplaceFragment(fragment);
         } else if (id == R.id.navLogout) {
             STTarterManager.getInstance().logout(MainActivity.this);

@@ -6,6 +6,7 @@
     android:gravity="center"
     android:orientation="horizontal"
     android:padding="@dimen/feed_item_margin"
+    android:background="@color/white"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
             <ImageView

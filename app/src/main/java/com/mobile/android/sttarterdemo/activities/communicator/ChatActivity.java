@@ -130,10 +130,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ChatActivity.this,GroupMembersListActivity.class);
-                //intent.putExtra("TOPIC_GROUP",topicMembers);
-                intent.putExtra("TOPIC_NAME", groupModel.getMeta().getName());
-                intent.putExtra("TOPIC_DESC", groupModel.getMeta().getGroup_desc());
-                intent.putExtra("TOPIC_IMAGE", groupModel.getMeta().getImage());
+                intent.putExtras(getIntent().getExtras());
                 startActivity(intent);
             }
         });
@@ -147,7 +144,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         typingTextLayout = (RelativeLayout) findViewById(R.id.typingTextLayout);
 
         sendButton.setOnClickListener(this);
-        
+
         //actionBar.setLogo(R.drawable.ic_launcher);
 
         // Retrieves an image specified by the URL, displays it in the UI.
@@ -220,92 +217,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-        /*
-        addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                // TODO send data about user typing
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(count>0) {
-
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-        */
-
-
-
-    }
-
-    public Cursor[] loadChats(String mytopic){
-
-        final Cursor[] cursor = {null};
-
-        LoaderManager.LoaderCallbacks<Cursor> cursorLoaderCallbacks = new LoaderManager.LoaderCallbacks<Cursor>() {
-            @Override
-            public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-                Uri uri;
-                String selection = null;
-                MessagesSelection where = new MessagesSelection();
-                switch (id) {
-                    case 0:
-                        where.topicsTopicName(groupModel.getTopic());
-                        //uri = Uri.parse("content://" + STTContentProvider.AUTHORITY + "/" + DatabaseHelper.TABLE_MESSAGES + "/singleTopicMessages");
-                        //selection = DatabaseHelper.COLUMN_MESSAGE_TOPIC + " LIKE '%" + topic + "%'";
-                        Log.d("ChatActivity Loader", "CursorLoader initialized");
-                        break;
-                    default:
-                        uri = null;
-                }
-                CursorLoader cursorLoader = new CursorLoader(ChatActivity.this, MessagesColumns.CONTENT_URI, null, where.sel(), where.args(), null);
-
-                return cursorLoader;
-            }
-
-            @Override
-            public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-                switch (loader.getId()) {
-                    case 0:
-                        data.setNotificationUri(
-                                getContentResolver(),
-                                MessagesColumns.CONTENT_URI);
-                        /*if(!allow_reply.equals("true")) {
-                            buzzFeedCursorAdapter.swapCursor(data);
-                            //ca.notifyDataSetChanged();
-                            chatRecyclerView1.scrollToPosition(buzzFeedCursorAdapter.getItemCount() - 1);
-                        }
-                        else {
-                            ca.swapCursor(data);
-                            //ca.notifyDataSetChanged();
-                            chatRecyclerView1.scrollToPosition(ca.getItemCount() - 1);
-                        }*/
-
-                        cursor[0] = data;
-
-                        Log.d("ChatActivity Loader", "CursorLoader load complete");
-                    default:
-                         break;
-                }
-            }
-
-            @Override
-            public void onLoaderReset(Loader<Cursor> loader) {
-
-            }
-        };
-
-        getSupportLoaderManager().initLoader(0,null,cursorLoaderCallbacks);
-
-        return cursor;
     }
 
     @Override
@@ -410,9 +322,9 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.unsubscribe:
                 showTimer("Loading..");
                 if (groupModel.getTopic()!=null && groupModel.getTopic().contains("-group-"))
-                CommunicationManager.getInstance().leaveGroup(ChatActivity.this,groupModel.getTopic(),sttSuccessListener(),errorListener());
+                    CommunicationManager.getInstance().leaveGroup(ChatActivity.this,groupModel.getTopic(),sttSuccessListener(),errorListener());
                 else
-                removeTimer();
+                    removeTimer();
                 //STTarterManager.getInstance().unsubscribe(topic);
                 //Log.d("STTTopicsCursorAdapter", "unsubscribed");
                 return true;

@@ -58,6 +58,15 @@ public class MessagesFragment extends Fragment implements /*LoaderManager.Loader
     //CommunicationManager sttGeneralRoutines;
     Bundle bundleARG;
 
+    public static MessagesFragment newInstance() {
+
+        Bundle args = new Bundle();
+
+        MessagesFragment fragment = new MessagesFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,12 +82,6 @@ public class MessagesFragment extends Fragment implements /*LoaderManager.Loader
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        this.getActivity().getSupportLoaderManager().initLoader(0, null, new GroupCursorLoader(getActivity(),this));
     }
 
     @Override
