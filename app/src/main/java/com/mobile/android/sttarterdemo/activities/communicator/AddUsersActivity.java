@@ -72,17 +72,17 @@ public class AddUsersActivity extends AppCompatActivity implements GetCursor, Ad
             @Override
             public void run() {
 
-                if (!TextUtils.isEmpty(searchUserEdit.getText().toString())) {
+                //if (!TextUtils.isEmpty(searchUserEdit.getText().toString())) {
 
-                    if (getSupportLoaderManager().getLoader(0) == null) {
-                        getSupportLoaderManager().initLoader(0, null, new UserCursorLoader(AddUsersActivity.this, searchUserEdit.getText().toString(), AddUsersActivity.this));
-                    } else {
-                        getSupportLoaderManager().restartLoader(0, null, new UserCursorLoader(AddUsersActivity.this, searchUserEdit.getText().toString(), AddUsersActivity.this));
-                    }
-
+                if (getSupportLoaderManager().getLoader(0) == null) {
+                    getSupportLoaderManager().initLoader(0, null, new UserCursorLoader(AddUsersActivity.this, searchUserEdit.getText().toString(), AddUsersActivity.this));
                 } else {
-
+                    getSupportLoaderManager().restartLoader(0, null, new UserCursorLoader(AddUsersActivity.this, searchUserEdit.getText().toString(), AddUsersActivity.this));
                 }
+
+                /*} else {
+
+                }*/
             }
 
         };
@@ -101,7 +101,7 @@ public class AddUsersActivity extends AppCompatActivity implements GetCursor, Ad
             @Override
             public void afterTextChanged(Editable editable) {
                 mHandler.removeCallbacks(searchrunnable);
-                mHandler.postDelayed(searchrunnable, 3000);
+                mHandler.postDelayed(searchrunnable, 1000);
             }
         });
 
@@ -119,6 +119,16 @@ public class AddUsersActivity extends AppCompatActivity implements GetCursor, Ad
             }
         });
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (getSupportLoaderManager().getLoader(0) == null) {
+            getSupportLoaderManager().initLoader(0, null, new UserCursorLoader(AddUsersActivity.this, searchUserEdit.getText().toString(), AddUsersActivity.this));
+        } else {
+            getSupportLoaderManager().restartLoader(0, null, new UserCursorLoader(AddUsersActivity.this, searchUserEdit.getText().toString(), AddUsersActivity.this));
+        }
     }
 
     private void init() {
