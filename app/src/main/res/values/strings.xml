@@ -14,7 +14,7 @@
     <string name="navWallet">Wallet</string>
     <string name="navCoupon">Coupon</string>
     <string name="navReferral">Referral</string>
-    <string name="navContentSystem">Content systems</string>
+    <string name="navContentSystem">Content System</string>
     <string name="navLogout">Logout</string>
 
     <string name="no_groups_available">You are not a member of any group at the moment</string>

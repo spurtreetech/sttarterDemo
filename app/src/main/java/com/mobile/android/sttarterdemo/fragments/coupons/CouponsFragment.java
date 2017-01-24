@@ -16,10 +16,13 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.mobile.android.sttarterdemo.R;
@@ -48,10 +51,13 @@ public class CouponsFragment extends Fragment implements View.OnClickListener{
     LinearLayout messageLayout;
     ArrayList<CartItem> cartItemArrayList;
     RecyclerView recyclerViewCart;
-    TextView textViewSubtotalAmount, textViewTotalAmount;
+    RelativeLayout discountLL;
+    ImageView doneImage;
+    TextView textViewSubtotalAmount, textViewTotalAmount,textViewDiscountAmount, textViewDiscount;
     Button confirmPayment;
     int subtotal = 0;
     int shipping = 90;
+    double discount_value = 0;
     ProgressDialog progress;
     ShoppingCartAdapter shoppingCartAdapter;
 
@@ -114,16 +120,40 @@ public class CouponsFragment extends Fragment implements View.OnClickListener{
                         public void Response(CouponResponse sttCouponResponse) {
 
                             if (sttCouponResponse.getResult()==null){
+
+                                errorMessage.setText(sttCouponResponse.getTitle());
+                                errorDescription.setText(sttCouponResponse.getMsg());
                                 messageLayout.setVisibility(View.VISIBLE);
 
-
-
+                            }
+                            else {
+                                discount_value = sttCouponResponse.getResult().getDiscount_value();
+                                setCounts();
+                                doneImage.setVisibility(View.VISIBLE);
+                                couponApply.setVisibility(View.INVISIBLE);
                             }
 
                         }
                     };
 
-                    CouponManager.getInstance().redeemCoupon((subtotal + shipping)+"",couponEdit.getText().toString(),sttCouponInterface,getResponseErrorListener());
+                    Response.ErrorListener errorListener = new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+
+                            NetworkResponse response = error.networkResponse;
+
+                            String json = new String(response.data);
+                            String msg = CommonFuntions.trimMessage(json, "msg");
+                            String title = CommonFuntions.trimMessage(json, "title");
+
+                            errorMessage.setText(title);
+                            errorDescription.setText(msg);
+                            messageLayout.setVisibility(View.VISIBLE);
+
+                        }
+                    };
+
+                    CouponManager.getInstance().redeemCoupon((subtotal + shipping)+"",couponEdit.getText().toString(),sttCouponInterface,errorListener);
                 }
             }
         });
@@ -138,14 +168,20 @@ public class CouponsFragment extends Fragment implements View.OnClickListener{
         activity = getActivity();
         couponEdit = (EditText) rootView.findViewById(R.id.couponEdit);
         recyclerViewCart = (RecyclerView) rootView.findViewById(R.id.recyclerViewCart);
+        discountLL = (RelativeLayout) rootView.findViewById(R.id.discountLL);
         textViewSubtotalAmount = (TextView) rootView.findViewById(R.id.textViewSubtotalAmount);
+        textViewDiscountAmount = (TextView) rootView.findViewById(R.id.textViewDiscountAmount);
         textViewTotalAmount = (TextView) rootView.findViewById(R.id.textViewTotalAmount);
+        textViewDiscount = (TextView) rootView.findViewById(R.id.textViewDiscount);
         messageLayout = (LinearLayout) rootView.findViewById(R.id.messageLayout);
         confirmPayment = (Button) rootView.findViewById(R.id.confirmPayment);
         couponApply = (Button) rootView.findViewById(R.id.applyCoupon);
         errorMessage = (TextView) rootView.findViewById(R.id.msg);
         errorDescription = (TextView) rootView.findViewById(R.id.description);
+        doneImage = (ImageView) rootView.findViewById(R.id.doneImage);
         messageLayout.setVisibility(View.INVISIBLE);
+        discountLL.setVisibility(View.GONE);
+        doneImage.setVisibility(View.GONE);
 
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -210,8 +246,13 @@ public class CouponsFragment extends Fragment implements View.OnClickListener{
             subtotal = subtotal + itemTotal ;
         }
 
+        if (discount_value>0){
+            discountLL.setVisibility(View.VISIBLE);
+            textViewDiscountAmount.setText("Rs. "+discount_value);
+        }
+
         textViewSubtotalAmount.setText("Rs. " + subtotal);
-        textViewTotalAmount.setText("Rs. " + (subtotal + shipping));
+        textViewTotalAmount.setText("Rs. " + ((subtotal + shipping)-discount_value));
 
     }
 
@@ -240,7 +281,7 @@ public class CouponsFragment extends Fragment implements View.OnClickListener{
                     }
                 };
 
-                ReferralManager.getInstance().addTransaction("aDemoIDFromAndroid",(subtotal + shipping)+"",sttReferralInterface,getResponseErrorListener());
+                ReferralManager.getInstance().addTransaction("aDemoIDFromAndroid",((subtotal + shipping)-discount_value)+"",sttReferralInterface,getResponseErrorListener());
                 break;
         }
     }
