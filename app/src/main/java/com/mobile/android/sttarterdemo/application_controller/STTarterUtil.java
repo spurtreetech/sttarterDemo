@@ -14,7 +14,7 @@ import com.mobile.android.sttarterdemo.R;
 import com.mobile.android.sttarterdemo.activities.MainActivity;
 import com.sttarter.communicator.models.GroupMeta;
 import com.sttarter.helper.utils.NotificationHelperListener;
-import com.sttarter.provider.STTProviderHelper;
+import com.sttarter.init.STTProviderHelper;
 
 import org.json.JSONArray;
 import org.json.JSONException;

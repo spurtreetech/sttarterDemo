@@ -1,10 +1,12 @@
-package com.mobile.android.sttarterdemo.activities.communicator;
+package com.mobile.android.sttarterdemo.fragments.communicator;
 
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -16,9 +18,12 @@ import com.google.gson.Gson;
 import com.mobile.android.sttarterdemo.R;
 import com.sttarter.common.models.User;
 import com.sttarter.communicator.ui.UserListCursorAdapter;
+import com.sttarter.database.models.UsersColumns;
 import com.sttarter.helper.interfaces.GetCursor;
 import com.sttarter.helper.utils.UserCursorLoader;
-import com.sttarter.provider.users.UsersColumns;
+import com.sttarter.init.ISTTSystemEvent;
+import com.sttarter.init.SysMessage;
+import com.sttarter.init.SystemMessageReceiver;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +32,7 @@ import java.util.List;
  * Created by Shahbaz on 07-12-2016.
  */
 
-public class AllUsersActivity extends Fragment implements GetCursor {
+public class AllUsersActivity extends Fragment implements GetCursor,ISTTSystemEvent {
 
     RecyclerView addUserRecyclerView;
     UserListCursorAdapter userListCursorAdapter;
@@ -35,6 +40,7 @@ public class AllUsersActivity extends Fragment implements GetCursor {
     Runnable searchrunnable;
     Handler mHandler = new Handler();
     List<String> usersList;
+    SystemMessageReceiver sysMessageReceiver;
 
     public static AllUsersActivity newInstance() {
 
@@ -43,6 +49,18 @@ public class AllUsersActivity extends Fragment implements GetCursor {
         AllUsersActivity fragment = new AllUsersActivity();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        try {
+            sysMessageReceiver = new SystemMessageReceiver(this);
+            LocalBroadcastManager.getInstance(getActivity()).registerReceiver(sysMessageReceiver, new IntentFilter("system"));
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Nullable
@@ -66,10 +84,17 @@ public class AllUsersActivity extends Fragment implements GetCursor {
     @Override
     public void onResume() {
         super.onResume();
-        if (getActivity().getSupportLoaderManager().getLoader(1) == null) {
-            getActivity().getSupportLoaderManager().initLoader(1, null, new UserCursorLoader(getActivity(), "", AllUsersActivity.this));
-        } else {
-            getActivity().getSupportLoaderManager().restartLoader(1, null, new UserCursorLoader(getActivity(), "", AllUsersActivity.this));
+        initOrRefreshLoader();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        try {
+            LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(sysMessageReceiver);
+        }
+        catch (Exception e){
+            e.printStackTrace();
         }
     }
 
@@ -84,6 +109,15 @@ public class AllUsersActivity extends Fragment implements GetCursor {
         }
 
 
+    }
+
+
+    void initOrRefreshLoader(){
+        if (getActivity().getSupportLoaderManager().getLoader(1) == null) {
+            getActivity().getSupportLoaderManager().initLoader(1, null, new UserCursorLoader(getActivity(), "", AllUsersActivity.this));
+        } else {
+            getActivity().getSupportLoaderManager().restartLoader(1, null, new UserCursorLoader(getActivity(), "", AllUsersActivity.this));
+        }
     }
 
 
@@ -117,4 +151,13 @@ public class AllUsersActivity extends Fragment implements GetCursor {
         Log.d("CursorJson", cursorJson);
     }
 
+    @Override
+    public void systemMessageReceived(String message, SysMessage eventType, String topic) {
+
+    }
+
+    @Override
+    public void refreshUI() {
+        initOrRefreshLoader();
+    }
 }
