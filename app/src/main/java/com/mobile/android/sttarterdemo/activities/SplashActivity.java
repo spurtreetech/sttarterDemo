@@ -33,12 +33,13 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         if (STTarterManager.getInstance().isUserAuthenticated(SplashActivity.this)){
-            STTarterManager.getInstance().init(SplashActivity.this, AppController.getInstance().getNotificationHelperListener());
+            STTarterManager.getInstance().initNotificationHelper(SplashActivity.this, AppController.getInstance().getNotificationHelperListener());
             moveToMainActivity();
         }
         else {
             initializeUIVariables();
-            initializeSTTarter();
+            //initializeSTTarter();
+            setOnClickListeners();
         }
     }
 
@@ -55,7 +56,7 @@ public class SplashActivity extends AppCompatActivity {
 
     }
 
-    private void initializeSTTarter(){
+    /*private void initializeSTTarter(){
         // At this point of time, the APP KEY and SECRET is available with the developer.
         // Authenticate the app first.
 
@@ -69,7 +70,7 @@ public class SplashActivity extends AppCompatActivity {
         };
 
         STTarterManager.getInstance().AuthenticateApp(this,getResources().getString(R.string.app_key),getResources().getString(R.string.app_secret), STTSuccessListener,getAuthResponseListener());
-    }
+    }*/
 
     public Response.ErrorListener getAuthResponseListener() {
         return new Response.ErrorListener() {

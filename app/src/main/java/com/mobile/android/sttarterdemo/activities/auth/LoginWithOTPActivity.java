@@ -27,6 +27,7 @@ import com.mobile.android.sttarterdemo.activities.MainActivity;
 import com.mobile.android.sttarterdemo.application_controller.AppController;
 import com.mobile.android.sttarterdemo.utils.CommonFuntions;
 import com.sttarter.common.responses.STTResponse;
+import com.sttarter.common.utils.STTarterConstants;
 import com.sttarter.helper.interfaces.STTSuccessListener;
 import com.sttarter.init.STTKeys;
 import com.sttarter.init.STTarterManager;
@@ -91,7 +92,7 @@ public class LoginWithOTPActivity extends AppCompatActivity implements View.OnCl
             } else {
                 showTimer("Requesting OTP...");
 
-                STTarterManager.getInstance().loginUserRequestForOTP(getApplicationContext(),getOTPSuccessListener(), getLoginResponseListener(), phoneNumberEditText.getText().toString().trim());
+                STTarterManager.getInstance().init(getApplicationContext(),getResources().getString(R.string.app_key),getResources().getString(R.string.app_secret), phoneNumberEditText.getText().toString().trim(),"",getOTPSuccessListener(), getLoginResponseListener(), STTarterConstants.AuthType.STTARTER_OTP_AUTH);
 
             }
         }
@@ -278,7 +279,7 @@ public class LoginWithOTPActivity extends AppCompatActivity implements View.OnCl
     private void loginIntoSttarter() {
 
         //STTarter Intialize - needs app key, secret, user and user token
-        STTarterManager.getInstance().init(getApplicationContext(), AppController.getInstance().getNotificationHelperListener());
+        STTarterManager.getInstance().initNotificationHelper(getApplicationContext(), AppController.getInstance().getNotificationHelperListener());
         // TODO redirect user to login screen
         Intent loginIntent = new Intent(LoginWithOTPActivity.this, MainActivity.class);
         //loginIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);

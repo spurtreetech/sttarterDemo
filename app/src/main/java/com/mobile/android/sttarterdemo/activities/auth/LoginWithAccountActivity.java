@@ -18,6 +18,7 @@ import com.mobile.android.sttarterdemo.R;
 import com.mobile.android.sttarterdemo.activities.MainActivity;
 import com.mobile.android.sttarterdemo.application_controller.AppController;
 import com.mobile.android.sttarterdemo.utils.CommonFuntions;
+import com.sttarter.common.utils.STTarterConstants;
 import com.sttarter.init.STTarterManager;
 import com.sttarter.common.responses.STTResponse;
 import com.sttarter.helper.interfaces.STTSuccessListener;
@@ -48,7 +49,7 @@ public class LoginWithAccountActivity extends AppCompatActivity implements View.
 
         if (isUserAuthenticated) {
             // Move to the next page - main activity
-            STTarterManager.getInstance().init(LoginWithAccountActivity.this, AppController.getInstance().getNotificationHelperListener());
+            STTarterManager.getInstance().initNotificationHelper(LoginWithAccountActivity.this, AppController.getInstance().getNotificationHelperListener());
             moveToMainActivity();
         } else {
             initializeUIVariables();
@@ -108,13 +109,13 @@ public class LoginWithAccountActivity extends AppCompatActivity implements View.
                 public void Response(final STTResponse myResponse) {
                     hideProgressIndicator();
                     // Go to the next screen. User has been successfully authenticated by STTarterManager
-                    STTarterManager.getInstance().init(LoginWithAccountActivity.this, AppController.getInstance().getNotificationHelperListener());
+                    STTarterManager.getInstance().initNotificationHelper(LoginWithAccountActivity.this, AppController.getInstance().getNotificationHelperListener());
                     moveToMainActivity();
 
                 }
             };
 
-            STTarterManager.getInstance().loginwithAccount(this, username, password, STTSuccessListener, getLoginErrorListener());
+            STTarterManager.getInstance().init(this,getResources().getString(R.string.app_key),getResources().getString(R.string.app_secret), username, password, STTSuccessListener, getLoginErrorListener(), STTarterConstants.AuthType.STTARTER_ACCOUNT_AUTH);
         }
     }
 
