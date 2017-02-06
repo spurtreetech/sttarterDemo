@@ -101,7 +101,7 @@ public class SignUpWithOTPActivity extends AppCompatActivity {
                         }
                     };
 
-                    STTarterManager.getInstance().signupWithOTP(SignUpWithOTPActivity.this, sttSuccessListener, getErrorListener(), editTextName.getText().toString(), phoneEditText.getText().toString(), editTextEmail.getText().toString());
+                    STTarterManager.getInstance().signupWithOTP(SignUpWithOTPActivity.this,getResources().getString(R.string.app_key),getResources().getString(R.string.app_secret), sttSuccessListener, getErrorListener(), editTextName.getText().toString(), phoneEditText.getText().toString(), editTextEmail.getText().toString());
                 }
             }
 
@@ -240,7 +240,7 @@ public class SignUpWithOTPActivity extends AppCompatActivity {
 
 
         //STTarter Intialize - needs app key, secret, user and user token
-        STTarterManager.getInstance().init(getApplicationContext(), AppController.getInstance().getNotificationHelperListener());
+        STTarterManager.getInstance().initNotificationHelper(getApplicationContext(), AppController.getInstance().getNotificationHelperListener());
         //startService(new Intent(this, MessagingService.class));
         // TODO redirect user to login screen
         Intent loginIntent = new Intent(SignUpWithOTPActivity.this, MainActivity.class);

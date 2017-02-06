@@ -59,7 +59,7 @@ public class SignUpWithAccountActivity extends AppCompatActivity {
                 }  else {
                     doSignUp();
                 }
-                }
+            }
 
         });
     }
@@ -89,14 +89,14 @@ public class SignUpWithAccountActivity extends AppCompatActivity {
                 public void Response(STTResponse myResponse) {
                     hideProgressIndicator();
 
-                    STTarterManager.getInstance().init(SignUpWithAccountActivity.this, AppController.getInstance().getNotificationHelperListener());
+                    STTarterManager.getInstance().initNotificationHelper(SignUpWithAccountActivity.this, AppController.getInstance().getNotificationHelperListener());
                     moveToMainActivity();
 
                 }
             };
 
             //Sign up with STTarterManager.
-            STTarterManager.getInstance().signUp(this,signUpModel,referralCode, STTSuccessListener,getSignUpErrorListener());
+            STTarterManager.getInstance().signupSTTarterAuth(this,getResources().getString(R.string.app_key),getResources().getString(R.string.app_secret),signUpModel,referralCode, STTSuccessListener,getSignUpErrorListener());
 
         }
     }
