@@ -40,15 +40,13 @@ import com.sttarter.communicator.ui.ChatAdapter;
 import com.sttarter.helper.interfaces.STTSuccessListener;
 import com.sttarter.init.ChatClient;
 import com.sttarter.init.ISTTSystemEvent;
+import com.sttarter.init.STTProviderHelper;
 import com.sttarter.init.STTarterManager;
 import com.sttarter.init.SysMessage;
 import com.sttarter.init.SystemMessageReceiver;
 import com.sttarter.communicator.models.Group;
 import com.sttarter.helper.utils.SpacesItemDecoration;
 import com.sttarter.helper.uitools.CircularNetworkImageView;
-import com.sttarter.provider.STTProviderHelper;
-import com.sttarter.provider.messages.MessagesColumns;
-import com.sttarter.provider.messages.MessagesSelection;
 import com.sttarter.helper.utils.MessageCursorLoader;
 import com.sttarter.helper.interfaces.GetCursor;
 
@@ -108,8 +106,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         topicDescTextView = (TextView) customActionBar.findViewById(R.id.topicDescTextView);
         topicImageView = (CircularNetworkImageView) customActionBar.findViewById(R.id.topicImageView);
 
-        topicNameTextView.setText(groupModel.getMeta().getName());
-        topicDescTextView.setText(groupModel.getMeta().getGroup_desc());
+        topicNameTextView.setText(groupModel.getMeta().getName()+"");
+        topicDescTextView.setText(groupModel.getMeta().getGroup_desc()+"");
         topicDescTextView.setSelected(true);
 
         topicNameTextView.setTextColor(getResources().getColor(R.color.white));
@@ -177,8 +175,10 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         //actionBar.setTitle(topicName);
 
 
-        if(!groupModel.getMeta().getAllow_reply().equals("true")) {
-            messageInputLayout.setVisibility(View.GONE);
+        if(groupModel.getMeta()!=null && groupModel.getMeta().getAllow_reply()!=null){
+            if(!groupModel.getMeta().getAllow_reply().equals("true")) {
+                messageInputLayout.setVisibility(View.GONE);
+            }
         }
 
         // Get topic info, if topic is not two way then do not show the input layout and Change the background in the adapter view
@@ -192,21 +192,20 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             e.printStackTrace();
         }
 
-        getSupportLoaderManager().initLoader(0,null, new MessageCursorLoader(this, groupModel.getTopic(),this));
-
-
 
         STTProviderHelper ph = new STTProviderHelper();
+        if(groupModel.getMeta()!=null && groupModel.getMeta().getAllow_reply()!=null) {
+            if (!groupModel.getMeta().getAllow_reply().equals("true")) {
+                buzzFeedCursorAdapter = new BuzzFeedCursorAdapter(ChatActivity.this, null);
+                chatRecyclerView.setAdapter(buzzFeedCursorAdapter);
+            }
+            else {
+                chatRecyclerView.addItemDecoration(new SpacesItemDecoration(32));
+                ca = new ChatAdapter(null);
+                chatRecyclerView.setAdapter(ca);
+            }
+        }
 
-        if(!groupModel.getMeta().getAllow_reply().equals("true")) {
-            buzzFeedCursorAdapter = new BuzzFeedCursorAdapter(ChatActivity.this,null);
-            chatRecyclerView.setAdapter(buzzFeedCursorAdapter);
-        }
-        else {
-            chatRecyclerView.addItemDecoration(new SpacesItemDecoration(32));
-            ca = new ChatAdapter(null);
-            chatRecyclerView.setAdapter(ca);
-        }
 
         editTextSendMessage.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -217,7 +216,17 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
+        initOrRestartLoader();
 
+    }
+
+    void initOrRestartLoader(){
+        if (getSupportLoaderManager().getLoader(0) == null) {
+            getSupportLoaderManager().initLoader(0, null, new MessageCursorLoader(this, groupModel.getTopic(), this));
+        }
+        else {
+            getSupportLoaderManager().restartLoader(0, null, new MessageCursorLoader(this, groupModel.getTopic(), this));
+        }
     }
 
     @Override
@@ -271,6 +280,11 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         Timer t = new Timer();
         t.schedule(tt, 1500);
 
+    }
+
+    @Override
+    public void refreshUI() {
+        initOrRestartLoader();
     }
 
     private STTSuccessListener sttSuccessListener(){
@@ -334,16 +348,18 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void getCursor(Cursor cursor) {
-        if(!groupModel.getMeta().getAllow_reply().equals("true")) {
-            buzzFeedCursorAdapter.swapCursor(cursor);
-            //ca.notifyDataSetChanged();
-            chatRecyclerView.scrollToPosition(buzzFeedCursorAdapter.getItemCount() - 1);
+        if(groupModel.getMeta()!=null && groupModel.getMeta().getAllow_reply()!=null) {
+            if (!groupModel.getMeta().getAllow_reply().equals("true")) {
+                buzzFeedCursorAdapter.swapCursor(cursor);
+                //ca.notifyDataSetChanged();
+                chatRecyclerView.scrollToPosition(buzzFeedCursorAdapter.getItemCount() - 1);
+            }else {
+                ca.swapCursor(cursor);
+                //ca.notifyDataSetChanged();
+                chatRecyclerView.scrollToPosition(ca.getItemCount() - 1);
+            }
         }
-        else {
-            ca.swapCursor(cursor);
-            //ca.notifyDataSetChanged();
-            chatRecyclerView.scrollToPosition(ca.getItemCount() - 1);
-        }
+
     }
 
     @Override

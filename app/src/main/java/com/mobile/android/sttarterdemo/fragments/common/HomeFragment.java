@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mobile.android.sttarterdemo.R;
-import com.mobile.android.sttarterdemo.activities.communicator.AllUsersActivity;
+import com.mobile.android.sttarterdemo.fragments.communicator.AllUsersActivity;
 import com.mobile.android.sttarterdemo.fragments.communicator.MessagesFragment;
 
 import java.util.ArrayList;

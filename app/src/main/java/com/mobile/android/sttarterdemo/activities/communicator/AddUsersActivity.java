@@ -27,12 +27,11 @@ import com.mobile.android.sttarterdemo.R;
 import com.sttarter.common.models.User;
 import com.sttarter.communicator.models.Group;
 import com.sttarter.communicator.ui.UserListCursorAdapter;
+import com.sttarter.database.models.UsersColumns;
 import com.sttarter.helper.interfaces.AddRemoveUserInterface;
 import com.sttarter.helper.interfaces.GetCursor;
 import com.sttarter.helper.utils.MessageCursorLoader;
 import com.sttarter.helper.utils.UserCursorLoader;
-import com.sttarter.provider.topics.TopicsColumns;
-import com.sttarter.provider.users.UsersColumns;
 
 import java.util.ArrayList;
 import java.util.List;
