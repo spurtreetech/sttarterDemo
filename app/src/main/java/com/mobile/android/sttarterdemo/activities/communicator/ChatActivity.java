@@ -1,5 +1,6 @@
 package com.mobile.android.sttarterdemo.activities.communicator;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -27,22 +28,25 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.mobile.android.sttarterdemo.R;
+import com.mobile.android.sttarterdemo.utils.CommonFuntions;
+import com.sttarter.common.responses.STTResponse;
 import com.sttarter.communicator.CommunicationManager;
 import com.sttarter.communicator.ui.BuzzFeedCursorAdapter;
 import com.sttarter.communicator.ui.ChatAdapter;
+import com.sttarter.helper.interfaces.STTSuccessListener;
 import com.sttarter.init.ChatClient;
 import com.sttarter.init.ISTTSystemEvent;
+import com.sttarter.init.STTProviderHelper;
 import com.sttarter.init.STTarterManager;
 import com.sttarter.init.SysMessage;
 import com.sttarter.init.SystemMessageReceiver;
 import com.sttarter.communicator.models.Group;
 import com.sttarter.helper.utils.SpacesItemDecoration;
 import com.sttarter.helper.uitools.CircularNetworkImageView;
-import com.sttarter.provider.STTProviderHelper;
-import com.sttarter.provider.messages.MessagesColumns;
-import com.sttarter.provider.messages.MessagesSelection;
 import com.sttarter.helper.utils.MessageCursorLoader;
 import com.sttarter.helper.interfaces.GetCursor;
 
@@ -73,6 +77,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     Group groupModel;
     Gson gson;
 
+    ProgressDialog progress;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,6 +93,10 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         topicDesc = (getIntent().getStringExtra("TOPIC_DESC") == null) ? "" : getIntent().getStringExtra("TOPIC_DESC");
         topicMembers = (getIntent().getStringExtra("TOPIC_GROUP") == null) ? "" : getIntent().getStringExtra("TOPIC_GROUP");*/
 
+        progress = new ProgressDialog(this);
+        progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progress.setIndeterminate(true);
+
         gson = new Gson();
         if (getIntent().hasExtra("topic"))
             groupModel = gson.fromJson(getIntent().getExtras().getString("topic"),Group.class);
@@ -96,8 +106,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         topicDescTextView = (TextView) customActionBar.findViewById(R.id.topicDescTextView);
         topicImageView = (CircularNetworkImageView) customActionBar.findViewById(R.id.topicImageView);
 
-        topicNameTextView.setText(groupModel.getMeta().getName());
-        topicDescTextView.setText(groupModel.getMeta().getGroup_desc());
+        topicNameTextView.setText(groupModel.getMeta().getName()+"");
+        topicDescTextView.setText(groupModel.getMeta().getGroup_desc()+"");
         topicDescTextView.setSelected(true);
 
         topicNameTextView.setTextColor(getResources().getColor(R.color.white));
@@ -118,10 +128,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ChatActivity.this,GroupMembersListActivity.class);
-                //intent.putExtra("TOPIC_GROUP",topicMembers);
-                intent.putExtra("TOPIC_NAME", groupModel.getMeta().getName());
-                intent.putExtra("TOPIC_DESC", groupModel.getMeta().getGroup_desc());
-                intent.putExtra("TOPIC_IMAGE", groupModel.getMeta().getImage());
+                intent.putExtras(getIntent().getExtras());
                 startActivity(intent);
             }
         });
@@ -135,10 +142,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         typingTextLayout = (RelativeLayout) findViewById(R.id.typingTextLayout);
 
         sendButton.setOnClickListener(this);
-        
-
-        STTProviderHelper sttProviderHelper = new STTProviderHelper();
-        sttProviderHelper.updateMessageRead(groupModel.getTopic());
 
         //actionBar.setLogo(R.drawable.ic_launcher);
 
@@ -172,8 +175,10 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         //actionBar.setTitle(topicName);
 
 
-        if(!groupModel.getMeta().getAllow_reply().equals("true")) {
-            messageInputLayout.setVisibility(View.GONE);
+        if(groupModel.getMeta()!=null && groupModel.getMeta().getAllow_reply()!=null){
+            if(!groupModel.getMeta().getAllow_reply().equals("true")) {
+                messageInputLayout.setVisibility(View.GONE);
+            }
         }
 
         // Get topic info, if topic is not two way then do not show the input layout and Change the background in the adapter view
@@ -187,21 +192,20 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             e.printStackTrace();
         }
 
-        getSupportLoaderManager().initLoader(0,null, new MessageCursorLoader(this, groupModel.getTopic(),this));
-
-
 
         STTProviderHelper ph = new STTProviderHelper();
+        if(groupModel.getMeta()!=null && groupModel.getMeta().getAllow_reply()!=null) {
+            if (!groupModel.getMeta().getAllow_reply().equals("true")) {
+                buzzFeedCursorAdapter = new BuzzFeedCursorAdapter(ChatActivity.this, null);
+                chatRecyclerView.setAdapter(buzzFeedCursorAdapter);
+            }
+            else {
+                chatRecyclerView.addItemDecoration(new SpacesItemDecoration(32));
+                ca = new ChatAdapter(null);
+                chatRecyclerView.setAdapter(ca);
+            }
+        }
 
-        if(!groupModel.getMeta().getAllow_reply().equals("true")) {
-            buzzFeedCursorAdapter = new BuzzFeedCursorAdapter(ChatActivity.this,null);
-            chatRecyclerView.setAdapter(buzzFeedCursorAdapter);
-        }
-        else {
-            chatRecyclerView.addItemDecoration(new SpacesItemDecoration(32));
-            ca = new ChatAdapter(null);
-            chatRecyclerView.setAdapter(ca);
-        }
 
         editTextSendMessage.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -212,92 +216,17 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-        /*
-        addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                // TODO send data about user typing
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(count>0) {
-
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-        */
-
-
+        initOrRestartLoader();
 
     }
 
-    public Cursor[] loadChats(String mytopic){
-
-        final Cursor[] cursor = {null};
-
-        LoaderManager.LoaderCallbacks<Cursor> cursorLoaderCallbacks = new LoaderManager.LoaderCallbacks<Cursor>() {
-            @Override
-            public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-                Uri uri;
-                String selection = null;
-                MessagesSelection where = new MessagesSelection();
-                switch (id) {
-                    case 0:
-                        where.topicsTopicName(groupModel.getTopic());
-                        //uri = Uri.parse("content://" + STTContentProvider.AUTHORITY + "/" + DatabaseHelper.TABLE_MESSAGES + "/singleTopicMessages");
-                        //selection = DatabaseHelper.COLUMN_MESSAGE_TOPIC + " LIKE '%" + topic + "%'";
-                        Log.d("ChatActivity Loader", "CursorLoader initialized");
-                        break;
-                    default:
-                        uri = null;
-                }
-                CursorLoader cursorLoader = new CursorLoader(ChatActivity.this, MessagesColumns.CONTENT_URI, null, where.sel(), where.args(), null);
-
-                return cursorLoader;
-            }
-
-            @Override
-            public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-                switch (loader.getId()) {
-                    case 0:
-                        data.setNotificationUri(
-                                getContentResolver(),
-                                MessagesColumns.CONTENT_URI);
-                        /*if(!allow_reply.equals("true")) {
-                            buzzFeedCursorAdapter.swapCursor(data);
-                            //ca.notifyDataSetChanged();
-                            chatRecyclerView1.scrollToPosition(buzzFeedCursorAdapter.getItemCount() - 1);
-                        }
-                        else {
-                            ca.swapCursor(data);
-                            //ca.notifyDataSetChanged();
-                            chatRecyclerView1.scrollToPosition(ca.getItemCount() - 1);
-                        }*/
-
-                        cursor[0] = data;
-
-                        Log.d("ChatActivity Loader", "CursorLoader load complete");
-                    default:
-                         break;
-                }
-            }
-
-            @Override
-            public void onLoaderReset(Loader<Cursor> loader) {
-
-            }
-        };
-
-        getSupportLoaderManager().initLoader(0,null,cursorLoaderCallbacks);
-
-        return cursor;
+    void initOrRestartLoader(){
+        if (getSupportLoaderManager().getLoader(0) == null) {
+            getSupportLoaderManager().initLoader(0, null, new MessageCursorLoader(this, groupModel.getTopic(), this));
+        }
+        else {
+            getSupportLoaderManager().restartLoader(0, null, new MessageCursorLoader(this, groupModel.getTopic(), this));
+        }
     }
 
     @Override
@@ -306,6 +235,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         // TODO registerReceiver with onResume
         LocalBroadcastManager.getInstance(this).registerReceiver(sysMessageReceiver, new IntentFilter("system"));
         STTarterManager.getInstance().setApplicationInBackground(false);
+        updateRead();
     }
     @Override
     protected void onPause() {
@@ -313,6 +243,11 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         // TODO unregister the receiver onPause
         LocalBroadcastManager.getInstance(this).unregisterReceiver(sysMessageReceiver);
         STTarterManager.getInstance().setApplicationInBackground(true);
+        updateRead();
+    }
+
+    void updateRead(){
+        CommunicationManager.getInstance().updateRead(groupModel.getTopic());
     }
 
     @Override
@@ -348,6 +283,44 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
+    public void refreshUI() {
+        initOrRestartLoader();
+    }
+
+    private STTSuccessListener sttSuccessListener(){
+        return new STTSuccessListener() {
+            @Override
+            public void Response(STTResponse sttResponse) {
+                removeTimer();
+                CommonFuntions.displayMessage(ChatActivity.this,sttResponse.getMsg());
+                if (sttResponse.getStatus()==200){
+                    finish();
+                }
+            }
+        };
+    }
+
+    private Response.ErrorListener errorListener(){
+        return new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                removeTimer();
+                CommonFuntions.onErrorResponse(ChatActivity.this,error);
+            }
+        };
+    }
+
+    private void showTimer(String message) {
+        progress.setMessage(message);
+        progress.show();
+    }
+
+    private void removeTimer() {
+        if (progress.isShowing())
+            progress.hide();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_unsubscribe, menu);
 
@@ -361,11 +334,13 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 onBackPressed();
                 return true;
             case R.id.unsubscribe:
-                CommunicationManager gr  = new CommunicationManager();
-                gr.unsubscribeTopic(groupModel.getTopic());
+                showTimer("Loading..");
+                if (groupModel.getTopic()!=null && groupModel.getTopic().contains("-group-"))
+                    CommunicationManager.getInstance().leaveGroup(ChatActivity.this,groupModel.getTopic(),sttSuccessListener(),errorListener());
+                else
+                    removeTimer();
                 //STTarterManager.getInstance().unsubscribe(topic);
                 //Log.d("STTTopicsCursorAdapter", "unsubscribed");
-                this.finish();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -373,16 +348,18 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void getCursor(Cursor cursor) {
-        if(!groupModel.getMeta().getAllow_reply().equals("true")) {
-            buzzFeedCursorAdapter.swapCursor(cursor);
-            //ca.notifyDataSetChanged();
-            chatRecyclerView.scrollToPosition(buzzFeedCursorAdapter.getItemCount() - 1);
+        if(groupModel.getMeta()!=null && groupModel.getMeta().getAllow_reply()!=null) {
+            if (!groupModel.getMeta().getAllow_reply().equals("true")) {
+                buzzFeedCursorAdapter.swapCursor(cursor);
+                //ca.notifyDataSetChanged();
+                chatRecyclerView.scrollToPosition(buzzFeedCursorAdapter.getItemCount() - 1);
+            }else {
+                ca.swapCursor(cursor);
+                //ca.notifyDataSetChanged();
+                chatRecyclerView.scrollToPosition(ca.getItemCount() - 1);
+            }
         }
-        else {
-            ca.swapCursor(cursor);
-            //ca.notifyDataSetChanged();
-            chatRecyclerView.scrollToPosition(ca.getItemCount() - 1);
-        }
+
     }
 
     @Override

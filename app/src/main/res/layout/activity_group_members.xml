@@ -57,12 +57,12 @@
         </android.support.design.widget.CollapsingToolbarLayout>
 
     </android.support.design.widget.AppBarLayout>
-    <!--<android.support.v7.widget.RecyclerView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/groupmembersRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
-    </android.support.v7.widget.RecyclerView>-->
+    </android.support.v7.widget.RecyclerView>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -78,4 +78,4 @@
             />
     </ScrollView>
 
-        </android.support.design.widget.CoordinatorLayout>
+</android.support.design.widget.CoordinatorLayout>

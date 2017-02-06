@@ -130,6 +130,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="0"
                 android:background="@drawable/rounded_textview"
                 android:paddingBottom="@dimen/size_small"
                 android:paddingLeft="@dimen/size_large"
@@ -140,12 +141,37 @@
             <EditText
                 android:id="@+id/couponEdit"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/rounded_edittext"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/white"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:imeOptions="actionDone"
                 android:padding="@dimen/size_small" />
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                >
+                <Button
+                    android:text="Apply"
+                    android:background="@android:color/transparent"
+                    android:layout_width="wrap_content"
+                    android:textAllCaps="false"
+                    android:layout_weight="0"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:id="@+id/applyCoupon"
+                    />
+                <ImageView
+                    android:id="@+id/doneImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/yes"
+                    />
+            </FrameLayout>
+
         </LinearLayout>
 
 
@@ -163,6 +189,7 @@
                 android:layout_height="0.2dp"
                 android:background="@color/lightGrey" />
             <TextView
+                android:id="@+id/msg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/size_extra_small"
@@ -175,6 +202,7 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/rounded_textview"
@@ -189,7 +217,35 @@
         android:layout_width="match_parent"
         android:layout_height="0.2dp"
         android:background="@color/darkGrey" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:id="@+id/discountLL"
+        android:orientation="horizontal"
+        android:padding="@dimen/size_small">
 
+        <TextView
+            android:id="@+id/textViewDiscount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="Discount"
+            android:textColor="@color/darkGrey"
+            android:textSize="@dimen/text_medium" />
+
+        <TextView
+            android:id="@+id/textViewDiscountAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/darkGrey"
+            android:textSize="@dimen/text_medium" />
+
+    </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

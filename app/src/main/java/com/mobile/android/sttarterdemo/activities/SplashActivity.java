@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -14,7 +13,6 @@ import com.mobile.android.sttarterdemo.R;
 import com.mobile.android.sttarterdemo.activities.auth.LoginExternalAuthActivity;
 import com.mobile.android.sttarterdemo.activities.auth.LoginWithAccountActivity;
 import com.mobile.android.sttarterdemo.activities.auth.LoginWithOTPActivity;
-import com.mobile.android.sttarterdemo.activities.auth.SignUpActivity;
 import com.mobile.android.sttarterdemo.application_controller.AppController;
 import com.mobile.android.sttarterdemo.utils.CommonFuntions;
 import com.sttarter.init.STTarterManager;
@@ -35,12 +33,13 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         if (STTarterManager.getInstance().isUserAuthenticated(SplashActivity.this)){
-            STTarterManager.getInstance().init(SplashActivity.this, AppController.getInstance().getNotificationHelperListener());
+            STTarterManager.getInstance().initNotificationHelper(SplashActivity.this, AppController.getInstance().getNotificationHelperListener());
             moveToMainActivity();
         }
         else {
             initializeUIVariables();
-            initializeSTTarter();
+            //initializeSTTarter();
+            setOnClickListeners();
         }
     }
 
@@ -57,7 +56,7 @@ public class SplashActivity extends AppCompatActivity {
 
     }
 
-    private void initializeSTTarter(){
+    /*private void initializeSTTarter(){
         // At this point of time, the APP KEY and SECRET is available with the developer.
         // Authenticate the app first.
 
@@ -70,8 +69,8 @@ public class SplashActivity extends AppCompatActivity {
             }
         };
 
-        STTarterManager.getInstance().AuthenticateApp(this,appKey,appSecret, STTSuccessListener,getAuthResponseListener());
-    }
+        STTarterManager.getInstance().AuthenticateApp(this,getResources().getString(R.string.app_key),getResources().getString(R.string.app_secret), STTSuccessListener,getAuthResponseListener());
+    }*/
 
     public Response.ErrorListener getAuthResponseListener() {
         return new Response.ErrorListener() {

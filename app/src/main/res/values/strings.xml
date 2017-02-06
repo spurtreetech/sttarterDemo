@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">STTarter Demo</string>
 
+    <string name="app_key">cb5d85ce01bbc179fece64b29be895d0</string>
+    <string name="app_secret">a5a2e3d81d8b57ec0fb4647079486678</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
@@ -12,6 +14,7 @@
     <string name="navWallet">Wallet</string>
     <string name="navCoupon">Coupon</string>
     <string name="navReferral">Referral</string>
+    <string name="navContentSystem">Content System</string>
     <string name="navLogout">Logout</string>
 
     <string name="no_groups_available">You are not a member of any group at the moment</string>
@@ -46,6 +49,7 @@
     <string name="mobile">Mobile</string>
     <string name="dob">Date Of Birth</string>
     <string name="userIdentifier">Username</string>
+    <string name="extIdentifier">Ext Id</string>
     <string name="password">Password</string>
     <string name="referral_code">Referral Code</string>
     <string name="users_list">User List</string>
@@ -72,5 +76,14 @@
     <string name="please_enter_phone_number">Please enter your Phone Number</string>
 
     <string name="referral_code_copied">Referral code copied</string>
+
+
+    <string name="shared_wallet">Shared Wallet</string>
+    <string name="personal_wallet">Personal Wallet</string>
+    <string name="admin">Admin</string>
+    <string name="balance">Balance: Rs. 10000</string>
+    <string name="view_transactions">View Transactions</string>
+    <string name="spent">Spent</string>
+    <string name="total">Total</string>
 
 </resources>

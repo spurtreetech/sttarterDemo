@@ -59,6 +59,15 @@ public class ReferralFragment extends Fragment {
 
     ProgressDialog progress;
 
+    public static ReferralFragment newInstance() {
+
+        Bundle args = new Bundle();
+
+        ReferralFragment fragment = new ReferralFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -2,16 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mobile.android.sttarterdemo">
 
-    <permission
-        android:name="com.mobile.android.sttarterdemo.permission.C2D_MESSAGE"
-        android:protectionLevel="signature" />
-    <uses-permission android:name="com.mobile.android.sttarterdemo.permission.C2D_MESSAGE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
         android:name=".application_controller.AppController"
@@ -38,13 +36,16 @@
             android:name=".activities.auth.LoginWithOTPActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activities.auth.SignUpWithOTPActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activities.auth.LoginExternalAuthActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.MainActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.auth.SignUpActivity"
+            android:name=".activities.auth.SignUpWithAccountActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.communicator.ChatActivity"
@@ -59,49 +60,28 @@
         <activity
             android:name=".activities.communicator.CreateGroupActivity"
             android:screenOrientation="portrait" />
+        <service
+            android:name=".fcm.MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
 
+        <service
+            android:name=".fcm.MyFirebaseInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
         <service
             android:name="org.eclipse.paho.android.service.MqttService"
             android:enabled="true"
             android:exported="false"
             android:stopWithTask="false" />
-        <service
-            android:name=".services.GcmMessageHandler"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-            </intent-filter>
-        </service>
-
-        <receiver
-            android:name="com.google.android.gms.gcm.GcmReceiver"
-            android:exported="true"
-            android:permission="com.google.android.c2dm.permission.SEND">
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
-
-                <category android:name="com.mobile.android.sttarterdemo" />
-            </intent-filter>
-        </receiver>
-        <receiver
-            android:name=".services.RestarterBroadcastReceiver"
-            android:enabled="true"
-            android:exported="true"
-            android:label="RestartServiceWhenStopped">
-            <intent-filter>
-                <action android:name="com.mobile.android.sttarterdemo.services.RestartIntent" />
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="android.intent.action.SCREEN_ON" />
-                <action android:name="android.intent.action.SCREEN_OFF" />
-            </intent-filter>
-        </receiver>
-
+        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyD8WL_ghBBdATkbzdBPcWj59y_2CYwTMuk"/>
         <meta-data
-            android:name="STTARTER_API_KEY"
-            android:value="f55aabbb06f7b585fd74a15bfab25dbf" />
-
-
+            android:name="io.fabric.ApiKey"
+            android:value="bd0161598a368743e4a041db9792335804f5fee7" />
     </application>
 
 </manifest>

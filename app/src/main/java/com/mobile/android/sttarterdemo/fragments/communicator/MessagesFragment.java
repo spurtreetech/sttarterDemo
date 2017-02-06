@@ -1,16 +1,15 @@
 package com.mobile.android.sttarterdemo.fragments.communicator;
 
 import android.app.Activity;
-import android.content.ClipData;
-import android.content.ClipboardManager;
-import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,26 +21,28 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.mobile.android.sttarterdemo.R;
 import com.mobile.android.sttarterdemo.activities.communicator.AddUsersActivity;
 import com.mobile.android.sttarterdemo.activities.communicator.ChatActivity;
-import com.mobile.android.sttarterdemo.activities.communicator.CreateGroupActivity;
-import com.sttarter.communicator.ui.ChatHistoryCursorAdapter;
+import com.sttarter.communicator.CommunicationManager;
 import com.sttarter.communicator.models.Group;
-import com.sttarter.helper.utils.SpacesItemDecoration;
-import com.sttarter.provider.STTProviderHelper;
-import com.sttarter.provider.topics.TopicsColumns;
+import com.sttarter.communicator.ui.ChatHistoryCursorAdapter;
+import com.sttarter.database.models.TopicsColumns;
+import com.sttarter.helper.interfaces.GetCursor;
 import com.sttarter.helper.utils.GroupCursorLoader;
+import com.sttarter.helper.utils.SpacesItemDecoration;
+import com.sttarter.init.ISTTSystemEvent;
+import com.sttarter.init.STTProviderHelper;
+import com.sttarter.init.STTarterManager;
+import com.sttarter.init.SysMessage;
+import com.sttarter.init.SystemMessageReceiver;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.sttarter.helper.interfaces.GetCursor;
-
-public class MessagesFragment extends Fragment implements /*LoaderManager.LoaderCallbacks<Cursor>,*/ ChatHistoryCursorAdapter.ChatInitiateListener, GetCursor {
+public class MessagesFragment extends Fragment implements /*LoaderManager.LoaderCallbacks<Cursor>,*/ ChatHistoryCursorAdapter.ChatInitiateListener, GetCursor,ISTTSystemEvent {
 
     Activity activity;
     RecyclerView recyclerViewMessages;
@@ -55,12 +56,29 @@ public class MessagesFragment extends Fragment implements /*LoaderManager.Loader
     //CommunicationManager sttGeneralRoutines;
     Bundle bundleARG;
 
+    SystemMessageReceiver sysMessageReceiver;
+
+    public static MessagesFragment newInstance() {
+
+        Bundle args = new Bundle();
+
+        MessagesFragment fragment = new MessagesFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setHasOptionsMenu(true);
-
+        try {
+            sysMessageReceiver = new SystemMessageReceiver(this);
+            LocalBroadcastManager.getInstance(getActivity()).registerReceiver(sysMessageReceiver, new IntentFilter("system"));
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
         //uri = Uri.parse("content://" + STTContentProvider.AUTHORITY + "/" + DatabaseHelper.TABLE_TOPICS + "/getMyTopics");
         //sttGeneralRoutines = new CommunicationManager();
         bundleARG = getArguments();
@@ -70,12 +88,6 @@ public class MessagesFragment extends Fragment implements /*LoaderManager.Loader
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        this.getActivity().getSupportLoaderManager().initLoader(0, null, new GroupCursorLoader(getActivity(),this));
     }
 
     @Override
@@ -104,7 +116,29 @@ public class MessagesFragment extends Fragment implements /*LoaderManager.Loader
     @Override
     public void onResume() {
         super.onResume();
-        //sttGeneralRoutines.getMyTopics();
+        try {
+            CommunicationManager.getInstance().subscribeInitalize();
+            STTarterManager.getInstance().setApplicationInBackground(false);
+            initOrRefreshLoader();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    void initOrRefreshLoader(){
+        if (getActivity().getSupportLoaderManager().getLoader(0) == null) {
+            getActivity().getSupportLoaderManager().initLoader(0, null, new GroupCursorLoader(getActivity(), this));
+        }
+        else {
+            getActivity().getSupportLoaderManager().restartLoader(0, null, new GroupCursorLoader(getActivity(), this));
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        STTarterManager.getInstance().setApplicationInBackground(true);
     }
 
     @Override
@@ -116,8 +150,14 @@ public class MessagesFragment extends Fragment implements /*LoaderManager.Loader
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
+    public void onStop() {
+        super.onStop();
+        try {
+            LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(sysMessageReceiver);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     private void init(View rootView) {
@@ -130,7 +170,7 @@ public class MessagesFragment extends Fragment implements /*LoaderManager.Loader
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                chatHistoryCursorAdapter.notifyDataSetChanged();
+                initOrRefreshLoader();
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
@@ -258,4 +298,13 @@ public class MessagesFragment extends Fragment implements /*LoaderManager.Loader
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void systemMessageReceived(String message, SysMessage eventType, String topic) {
+
+    }
+
+    @Override
+    public void refreshUI() {
+        initOrRefreshLoader();
+    }
 }
